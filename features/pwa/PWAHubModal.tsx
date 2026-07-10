@@ -132,31 +132,9 @@ export default function PWAHubModal() {
         return;
       }
 
-      // Wait for the primary SW to be ready first, then register FCM SW
+      // Wait for the primary SW to be ready first
       console.log("[FCM Push Setup] Waiting for service worker to be ready...");
-      await navigator.serviceWorker.ready;
-
-      // Explicit FCM SW registration to avoid Next.js routing scope conflicts
-      console.log("[FCM Push Setup] Registering Firebase messaging service worker...");
-      const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js", { updateViaCache: "none" });
-
-      // Wait for the FCM SW to become fully active before calling getToken
-      if (!registration.active) {
-        console.log("[FCM Push Setup] Waiting for FCM service worker to activate...");
-        await new Promise<void>((resolve) => {
-          const serviceWorker = registration.installing || registration.waiting;
-          if (serviceWorker) {
-            serviceWorker.addEventListener("statechange", (e: any) => {
-              if (e.target.state === "activated") {
-                console.log("[FCM Push Setup] FCM service worker activated!");
-                resolve();
-              }
-            });
-          } else {
-            resolve();
-          }
-        });
-      }
+      const registration = await navigator.serviceWorker.ready;
 
       console.log("[FCM Push Setup] Fetching messaging token...");
       const vapidKey = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY || "";

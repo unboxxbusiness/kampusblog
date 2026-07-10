@@ -135,40 +135,15 @@ export default function FCMHandler() {
       setStatus("granted");
 
       // 2. Wait for SW to be fully ready before requesting token
-      //    Using navigator.serviceWorker.ready is the most reliable approach.
       console.log("[FCM] Waiting for service worker to be ready...");
       const registration = await navigator.serviceWorker.ready;
 
-      // 3. Also register the Firebase Messaging SW explicitly so FCM can use it
-      let fcmRegistration = registration;
-      try {
-        fcmRegistration = await navigator.serviceWorker.register(
-          "/firebase-messaging-sw.js",
-          { updateViaCache: "none" }
-        );
-        // Wait until the FCM SW is active before calling getToken
-        if (!fcmRegistration.active) {
-          await new Promise<void>((resolve) => {
-            const sw = fcmRegistration.installing || fcmRegistration.waiting;
-            if (sw) {
-              sw.addEventListener("statechange", (e: any) => {
-                if (e.target.state === "activated") resolve();
-              });
-            } else {
-              resolve();
-            }
-          });
-        }
-      } catch (swErr) {
-        console.warn("[FCM] Could not register Firebase SW separately, using existing SW:", swErr);
-      }
-
-      // 4. Fetch FCM Token
+      // 3. Fetch FCM Token using the main active service worker registration
       const vapidKey = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY || "";
       console.log("[FCM] Fetching FCM token...");
       const fcmToken = await getToken(messaging, {
         vapidKey,
-        serviceWorkerRegistration: fcmRegistration,
+        serviceWorkerRegistration: registration,
       });
 
       if (!fcmToken) {
