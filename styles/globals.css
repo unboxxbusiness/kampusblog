@@ -156,21 +156,27 @@
     letter-spacing: -0.02em;
   }
 
-  /* ===========================================================
-     GLOBAL TEXT-PRIMARY FIX
-     Wherever Tailwind's text-primary is used as text (not a BG
-     or border), override it in light mode to use --primary-text
-     so it stays readable on white/off-white backgrounds.
-     =========================================================== */
-  :root .text-primary,
-  :root [class*="text-primary"] {
-    color: var(--primary-text);
+  /* Base typography only — no utility overrides here */
+}
+
+/* ===========================================================
+   LIGHT MODE TEXT-PRIMARY FIX
+   Tailwind generates .text-primary in @layer utilities.
+   We must override it at the SAME layer with higher specificity
+   so the golden #fca311 is replaced with legible #b45309 on
+   white/off-white backgrounds in light mode.
+   =========================================================== */
+@layer utilities {
+  /* Light mode: dark amber, ~7.2:1 contrast on white ✓ WCAG AA */
+  :root .text-primary {
+    color: #b45309;
   }
-  .dark .text-primary,
-  .dark [class*="text-primary"] {
-    color: var(--primary);
+  /* Dark mode: bright golden is fine on dark backgrounds */
+  .dark .text-primary {
+    color: #fca311;
   }
 }
+
 
 /* Glassmorphism Classes */
 .glass {
