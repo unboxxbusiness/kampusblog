@@ -1,0 +1,427 @@
+/* Premium Article Rendering CSS for Kampus Filter */
+
+.article-body {
+  font-family: var(--font-serif);
+  color: hsl(var(--foreground) / 0.88);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  letter-spacing: -0.011em;
+}
+
+/* Headings with high-end editorial treatment */
+.article-body h2 {
+  font-family: var(--font-heading);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--color-foreground);
+  margin-top: 2.5rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  padding-left: 1rem;
+  border-left: 4px solid var(--color-primary);
+}
+
+.article-body h3 {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  display: flex;
+  align-items: center;
+}
+
+/* Dot prefix for H3 */
+.article-body h3::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  margin-right: 0.6rem;
+  flex-shrink: 0;
+}
+
+.article-body h4 {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 650;
+  color: var(--color-foreground);
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Paragraph spacing */
+.article-body p {
+  margin-bottom: 1.4rem;
+}
+
+.article-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Bold/strong accentuation */
+.article-body strong {
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+
+/* Premium links with animated slide-in underline */
+.article-body a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.article-body a::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -1px;
+  left: 0;
+  background-color: var(--color-primary);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.article-body a:hover {
+  color: hsl(var(--primary) / 0.85);
+}
+
+.article-body a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* External Link indicator */
+.article-body a[target="_blank"]::before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 12px;
+  height: 12px;
+  margin-right: 3px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-width='2.5' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25'/%3E%3C/svg%3E");
+  background-size: contain;
+  opacity: 0.6;
+}
+
+/* Custom bullet lists with primary color chevrons */
+.article-body ul {
+  list-style: none;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-body ul li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.article-body ul li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  color: var(--color-primary);
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+/* Styled numbered list */
+.article-body ol {
+  list-style: none;
+  counter-reset: custom-counter;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-body ol li {
+  counter-increment: custom-counter;
+  position: relative;
+  padding-left: 1.8rem;
+  margin-bottom: 0.7rem;
+}
+
+.article-body ol li::before {
+  content: counter(custom-counter);
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 18px;
+  height: 18px;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  font-weight: 700;
+  font-size: 0.65rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+}
+
+/* Premium quote blocks with decorative overlay */
+.article-body blockquote {
+  position: relative;
+  background-color: var(--color-secondary);
+  border-left: 4px solid var(--color-primary);
+  padding: 1.5rem 1.8rem;
+  margin: 2rem 0;
+  border-radius: 0 12px 12px 0;
+  font-style: italic;
+  color: hsl(var(--foreground) / 0.9);
+}
+
+.article-body blockquote::before {
+  content: "“";
+  position: absolute;
+  top: -0.8rem;
+  left: 0.8rem;
+  font-size: 5rem;
+  color: var(--color-primary);
+  opacity: 0.08;
+  font-family: serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Zebra stripe premium tables with sticky header and card glow */
+.article-body table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .article-body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+}
+
+.article-body table:hover {
+  border-color: hsl(var(--primary) / 0.15);
+  box-shadow: 0 8px 24px -4px hsl(var(--primary) / 0.05);
+}
+
+.article-body th {
+  background-color: var(--color-secondary);
+  color: var(--color-foreground);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-align: left;
+  padding: 1rem 1.2rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.article-body td {
+  padding: 0.95rem 1.2rem;
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--color-border);
+  color: hsl(var(--foreground) / 0.82);
+  transition: background-color 0.2s ease;
+}
+
+.article-body tr:last-child td {
+  border-bottom: none;
+}
+
+.article-body tr:nth-child(even) {
+  background-color: hsl(var(--secondary) / 0.4);
+}
+
+.article-body tr:hover td {
+  background-color: hsl(var(--primary) / 0.03);
+}
+
+/* Inline code pill highlights */
+.article-body code {
+  font-family: monospace;
+  font-size: 0.85em;
+  padding: 0.2rem 0.4rem;
+  background-color: hsl(var(--primary) / 0.08);
+  color: var(--color-primary);
+  border-radius: 6px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Code block terminal view */
+.article-body pre {
+  margin: 2rem 0;
+  background-color: #0d1117;
+  border-radius: 12px;
+  border: 1px solid #21262d;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Terminal top bar */
+.article-body pre::before {
+  content: "";
+  display: block;
+  height: 28px;
+  background-color: #161b22;
+  border-bottom: 1px solid #21262d;
+  padding-left: 12px;
+  background-image: radial-gradient(#ff5f56 50%, transparent 50%),
+                    radial-gradient(#ffbd2e 50%, transparent 50%),
+                    radial-gradient(#27c93f 50%, transparent 50%);
+  background-size: 9px 9px;
+  background-repeat: no-repeat;
+  background-position: 12px 10px, 26px 10px, 40px 10px;
+}
+
+.article-body pre code {
+  display: block;
+  padding: 1.2rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  color: #c9d1d9;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  font-weight: 400;
+}
+
+/* Image styling */
+.article-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  margin: 2.2rem auto;
+  display: block;
+}
+
+/* Highlighting */
+.article-body mark {
+  background-color: #fef08a; /* Soft Yellow */
+  color: #1e293b;
+  padding: 0.1rem 0.25rem;
+  border-radius: 4px;
+}
+
+/* Gradient divider */
+.article-body hr {
+  margin: 3rem 0;
+  border: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-border), transparent);
+}
+
+/* ============================================================
+   DARK MODE OVERRIDES — Inline-styled highlight boxes
+   These use !important to override hardcoded inline styles
+   generated from article content HTML stored in the database.
+   ============================================================ */
+
+/* Amber / yellow highlight boxes (e.g. Key Highlights) */
+.dark .article-body div[style*="#fef3c7"],
+.dark .article-body div[style*="#fde68a"],
+.dark .article-body div[style*="fef3c7"],
+.dark .article-body div[style*="fde68a"] {
+  background: linear-gradient(135deg, #292117, #1e1a10) !important;
+  border-left-color: #f59e0b !important;
+}
+
+/* Amber / brown text inside dark highlight boxes */
+.dark .article-body div[style*="#fef3c7"] *,
+.dark .article-body div[style*="#fde68a"] *,
+.dark .article-body div[style*="fef3c7"] *,
+.dark .article-body div[style*="fde68a"] * {
+  color: #fde68a !important;
+}
+
+/* Headings inside dark highlight boxes */
+.dark .article-body div[style*="#fef3c7"] h4,
+.dark .article-body div[style*="#fde68a"] h4,
+.dark .article-body div[style*="fef3c7"] h4,
+.dark .article-body div[style*="fde68a"] h4 {
+  color: #fbbf24 !important;
+}
+
+/* Blue / indigo info boxes */
+.dark .article-body div[style*="#eff6ff"],
+.dark .article-body div[style*="#dbeafe"],
+.dark .article-body div[style*="eff6ff"],
+.dark .article-body div[style*="dbeafe"] {
+  background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+  border-left-color: #3b82f6 !important;
+}
+
+.dark .article-body div[style*="#eff6ff"] *,
+.dark .article-body div[style*="#dbeafe"] * {
+  color: #bfdbfe !important;
+}
+
+/* Green success boxes */
+.dark .article-body div[style*="#f0fdf4"],
+.dark .article-body div[style*="#dcfce7"] {
+  background: linear-gradient(135deg, #052e16, #14532d) !important;
+  border-left-color: #22c55e !important;
+}
+
+.dark .article-body div[style*="#f0fdf4"] *,
+.dark .article-body div[style*="#dcfce7"] * {
+  color: #bbf7d0 !important;
+}
+
+/* Red / danger boxes */
+.dark .article-body div[style*="#fef2f2"],
+.dark .article-body div[style*="#fee2e2"] {
+  background: linear-gradient(135deg, #1c0a0a, #2d0f0f) !important;
+  border-left-color: #ef4444 !important;
+}
+
+.dark .article-body div[style*="#fef2f2"] *,
+.dark .article-body div[style*="#fee2e2"] * {
+  color: #fecaca !important;
+}
+
+/* Any remaining div with a light hardcoded background-color inline style */
+.dark .article-body div[style*="background"] {
+  border-radius: 12px;
+}
+
+/* Fix inline colored text (e.g. color: #92400e brown on dark bg) */
+.dark .article-body [style*="color: #92400e"],
+.dark .article-body [style*="color:#92400e"],
+.dark .article-body [style*="color: #78350f"],
+.dark .article-body [style*="color:#78350f"] {
+  color: #fbbf24 !important;
+}
+
+.dark .article-body [style*="color: #1e3a5f"],
+.dark .article-body [style*="color:#1e3a5f"],
+.dark .article-body [style*="color: #1d4ed8"],
+.dark .article-body [style*="color:#1d4ed8"] {
+  color: #93c5fd !important;
+}

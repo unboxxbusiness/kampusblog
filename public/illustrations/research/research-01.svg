@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base platform -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Microscope (Right side - Experimental research) -->
+  <g transform="translate(450, 130)">
+    <!-- Base -->
+    <rect x="20" y="220" width="100" height="20" rx="4" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+    
+    <!-- Arm -->
+    <path d="M 90 220 C 120 180, 110 110, 80 90 L 90 75 C 130 95, 140 180, 100 220" fill="#3b82f6" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    
+    <!-- Stage -->
+    <rect x="15" y="170" width="60" height="8" rx="2" fill="#475569" />
+    <circle cx="45" cy="185" r="4" fill="#3b82f6" />
+
+    <!-- Lens/Eyepiece System -->
+    <g transform="translate(20, 50) rotate(15)">
+      <!-- Eyepiece -->
+      <rect x="15" y="0" width="14" height="25" fill="#ffffff" stroke="#475569" stroke-width="3" />
+      <!-- Body tube -->
+      <rect x="10" y="25" width="24" height="80" rx="4" fill="#ffffff" stroke="#475569" stroke-width="3" />
+      <!-- Objective lens -->
+      <rect x="14" y="105" width="16" height="15" fill="#475569" />
+    </g>
+
+    <!-- Adjustment Knobs -->
+    <circle cx="105" cy="150" r="10" fill="#cbd5e1" stroke="#475569" stroke-width="2.5" />
+    <circle cx="105" cy="150" r="4" fill="#475569" />
+  </g>
+
+  <!-- Clipboard of Findings & Flask (Left side - Analysis/Lab work) -->
+  <!-- Research Flask with bubbles -->
+  <g transform="translate(140, 230)">
+    <!-- Liquid inside -->
+    <path d="M 25 100 L 95 100 L 95 120 C 95 130, 85 140, 60 140 C 35 140, 25 130, 25 120 Z" fill="#e0f2fe" />
+    <!-- Tube Body -->
+    <path d="M 50 30 L 50 70 L 25 120 C 20 130, 30 140, 45 140 L 75 140 C 90 140, 100 130, 95 120 L 70 70 L 70 30 Z" fill="none" stroke="#475569" stroke-width="3.5" stroke-linejoin="round" />
+    <rect x="44" y="24" width="32" height="6" rx="2" fill="#cbd5e1" stroke="#475569" stroke-width="3.5" />
+    <!-- Bubbles -->
+    <circle cx="60" cy="90" r="5" fill="#3b82f6" />
+    <circle cx="45" cy="115" r="7" fill="#3b82f6" />
+    <circle cx="75" cy="110" r="4" fill="#3b82f6" />
+  </g>
+
+  <!-- Clipboard -->
+  <g transform="translate(230, 180) rotate(-5)">
+    <!-- Clipboard body -->
+    <rect x="0" y="0" width="120" height="170" rx="10" fill="#ffffff" stroke="#475569" stroke-width="3" />
+    <!-- Top Clip -->
+    <rect x="40" y="-8" width="40" height="16" rx="4" fill="#cbd5e1" stroke="#475569" stroke-width="2.5" />
+    
+    <!-- Data Graph mockup on clipboard -->
+    <line x1="20" y1="35" x2="100" y2="35" stroke="#475569" stroke-width="3.5" stroke-linecap="round" />
+    <!-- Line graph -->
+    <path d="M 25 110 L 45 80 L 65 95 L 95 65" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" />
+    <circle cx="95" cy="65" r="4" fill="#3b82f6" />
+
+    <line x1="25" y1="135" x2="95" y2="135" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 390 100 L 393 107 L 400 110 L 393 113 L 390 120 L 387 113 L 380 110 L 387 107 Z" fill="#3b82f6" opacity="0.6" />
+  <circle cx="150" cy="150" r="5" fill="#cbd5e1" />
+</svg>

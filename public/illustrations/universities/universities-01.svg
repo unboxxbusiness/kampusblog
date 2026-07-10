@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Classical University Dome Building (Indigo themed) -->
+  <g transform="translate(180, 160)">
+    <!-- Base steps -->
+    <rect x="0" y="230" width="220" height="20" rx="4" fill="#f1f5f9" stroke="#475569" stroke-width="3" />
+    <rect x="15" y="215" width="190" height="15" rx="2" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+    
+    <!-- Columns -->
+    <rect x="35" y="110" width="20" height="105" rx="2" fill="#f8fafc" stroke="#475569" stroke-width="3" />
+    <rect x="80" y="110" width="20" height="105" rx="2" fill="#f8fafc" stroke="#475569" stroke-width="3" />
+    <rect x="125" y="110" width="20" height="105" rx="2" fill="#f8fafc" stroke="#475569" stroke-width="3" />
+    <rect x="170" y="110" width="20" height="105" rx="2" fill="#f8fafc" stroke="#475569" stroke-width="3" />
+
+    <!-- Architrave/Top Block -->
+    <polygon points="10,110 210,110 110,70" fill="#6366f1" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+
+    <!-- Shield Emblem/Crest inside pediment -->
+    <path d="M 100 85 C 100 85, 110 85, 110 95 C 110 102, 100 106, 100 106 C 100 106, 90 102, 90 95 C 90 85, 100 85, 100 85" fill="#ffffff" stroke="#475569" stroke-width="2" />
+  </g>
+
+  <!-- Stack of Books (Academic foundation - Left) -->
+  <g transform="translate(460, 240)">
+    <!-- Book 1 (Bottom, Blue) -->
+    <rect x="10" y="110" width="160" height="40" rx="6" fill="#3b82f6" stroke="#475569" stroke-width="3" />
+    <line x1="30" y1="110" x2="30" y2="150" stroke="#475569" stroke-width="3" />
+    <line x1="40" y1="130" x2="150" y2="130" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Book 2 (Middle, White) -->
+    <rect x="25" y="70" width="140" height="40" rx="6" fill="#ffffff" stroke="#475569" stroke-width="3" />
+    <line x1="45" y1="70" x2="45" y2="110" stroke="#475569" stroke-width="3" />
+    <line x1="55" y1="90" x2="140" y2="90" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Book 3 (Top, Indigo) -->
+    <rect x="40" y="30" width="115" height="40" rx="6" fill="#6366f1" stroke="#475569" stroke-width="3" />
+    <line x1="60" y1="30" x2="60" y2="70" stroke="#475569" stroke-width="3" />
+    <line x1="70" y1="50" x2="130" y2="50" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Global network/academic compass symbol -->
+  <g transform="translate(460, 110)">
+    <circle cx="80" cy="50" r="35" fill="none" stroke="#6366f1" stroke-width="3" stroke-dasharray="6,6" />
+    <line x1="80" y1="5" x2="80" y2="95" stroke="#475569" stroke-width="2" />
+    <line x1="35" y1="50" x2="125" y2="50" stroke="#475569" stroke-width="2" />
+    <circle cx="80" cy="50" r="8" fill="#6366f1" />
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 140 180 L 143 187 L 150 190 L 143 193 L 140 200 L 137 193 L 130 190 L 137 187 Z" fill="#6366f1" opacity="0.6" />
+  <circle cx="430" cy="240" r="4" fill="#cbd5e1" />
+</svg>

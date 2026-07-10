@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Score Board Card (Exam results - Left side) -->
+  <g transform="translate(180, 160) rotate(-3)">
+    <rect x="0" y="0" width="160" height="190" rx="14" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    <path d="M 0 14 Q 0 0, 14 0 L 146 0 Q 160 0, 160 14 L 160 40 L 0 40 Z" fill="#faf5ff" stroke="#475569" stroke-width="3.5" />
+    
+    <!-- Score Value Indicator (99%) -->
+    <rect x="35" y="60" width="90" height="50" rx="8" fill="#f3e8ff" stroke="#818cf8" stroke-width="2" />
+    <text x="47" y="96" font-family="sans-serif" font-size="28" font-weight="900" fill="#818cf8">99%</text>
+
+    <!-- Checklist rows -->
+    <line x1="20" y1="135" x2="140" y2="135" stroke="#475569" stroke-width="3" stroke-linecap="round" />
+    <line x1="20" y1="155" x2="100" y2="155" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Stopwatch / Timer (Right side - Speed & Accuracy) -->
+  <g transform="translate(480, 190) rotate(5)">
+    <!-- Watch Body -->
+    <circle cx="60" cy="70" r="50" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    <circle cx="60" cy="70" r="42" fill="none" stroke="#f3e8ff" stroke-width="2" />
+    <line x1="60" y1="28" x2="60" y2="36" stroke="#475569" stroke-width="3" stroke-linecap="round" />
+    <line x1="60" y1="104" x2="60" y2="112" stroke="#475569" stroke-width="3" stroke-linecap="round" />
+    <!-- Needle -->
+    <path d="M 60 70 L 80 50" fill="none" stroke="#818cf8" stroke-width="3.5" stroke-linecap="round" />
+    <circle cx="60" cy="70" r="6" fill="#475569" />
+    
+    <!-- Stem button -->
+    <rect x="53" y="10" width="14" height="10" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+    <rect x="48" y="5" width="24" height="6" fill="#475569" rx="2" />
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 400 120 L 403 127 L 410 130 L 403 133 L 400 140 L 397 133 L 390 130 L 397 137 Z" fill="#818cf8" opacity="0.7" />
+  <circle cx="150" cy="220" r="5" fill="#cbd5e1" />
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Graduation Cap Piggy Bank (Emerald Theme) -->
+  <g transform="translate(260, 160)">
+    <!-- Bank Main Sphere Body -->
+    <circle cx="140" cy="140" r="100" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    <path d="M 40 140 A 100 100 0 0 0 240 140 Z" fill="#e6f4ea" opacity="0.5" />
+    
+    <!-- Coin Slot at the top -->
+    <line x1="140" y1="52" x2="140" y2="72" stroke="#475569" stroke-width="4.5" stroke-linecap="round" />
+
+    <!-- Cap Diamond sitting on top of the piggy bank -->
+    <g transform="translate(40, -10)">
+      <polygon points="100,0 180,30 100,60 20,30" fill="#10b981" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+      <path d="M 20 30 L 5 45 M 100 60 L 100 85" stroke="#475569" stroke-width="2.5" />
+      <circle cx="5" cy="45" r="4" fill="#10b981" stroke="#475569" stroke-width="1.5" />
+    </g>
+
+    <!-- Golden Coin falling into slot -->
+    <g transform="translate(125, -20)">
+      <circle cx="15" cy="15" r="15" fill="#fff7ed" stroke="#475569" stroke-width="2.5" />
+      <circle cx="15" cy="15" r="9" fill="#10b981" opacity="0.3" />
+      <!-- Down Arrow in coin -->
+      <path d="M 15 8 L 15 22 M 10 17 L 15 22 L 20 17" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  </g>
+
+  <!-- Money Tree branch growing out of ground (Left side) -->
+  <g transform="translate(130, 260)">
+    <path d="M 20 150 Q 50 100, 40 60" fill="none" stroke="#10b981" stroke-width="3.5" stroke-linecap="round" />
+    <!-- Leaf 1 -->
+    <path d="M 40 60 C 25 50, 20 30, 40 30 C 60 30, 55 50, 40 60" fill="#ffffff" stroke="#475569" stroke-width="2" />
+    <!-- Leaf 2 (Coin) -->
+    <circle cx="65" cy="90" r="14" fill="#e6f4ea" stroke="#10b981" stroke-width="2" />
+    <text x="61" y="95" font-family="sans-serif" font-size="14" font-weight="900" fill="#10b981">$</text>
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 520 120 L 523 127 L 530 130 L 523 133 L 520 140 L 517 133 L 510 130 L 517 127 Z" fill="#10b981" opacity="0.7" />
+  <circle cx="180" cy="220" r="5" fill="#cbd5e1" />
+</svg>

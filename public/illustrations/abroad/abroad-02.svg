@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Compass Dial (Study abroad navigation - Left side) -->
+  <g transform="translate(180, 160)">
+    <circle cx="80" cy="80" r="70" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    <circle cx="80" cy="80" r="58" fill="none" stroke="#e0f7fa" stroke-width="2" />
+    
+    <!-- Direction Needle -->
+    <polygon points="80,30 92,80 80,90" fill="#00bcd4" stroke="#475569" stroke-width="2" />
+    <polygon points="80,130 92,80 80,90" fill="#ffffff" stroke="#475569" stroke-width="2" />
+    <circle cx="80" cy="80" r="6" fill="#475569" />
+  </g>
+
+  <!-- Flight Ticket / Boarding Pass (Right side) -->
+  <g transform="translate(450, 190) rotate(8)">
+    <rect x="0" y="0" width="180" height="110" rx="10" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    <!-- Tear strip divider -->
+    <line x1="130" y1="0" x2="130" y2="110" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4,4" />
+    
+    <!-- Ticket Details -->
+    <line x1="20" y1="30" x2="80" y2="30" stroke="#00bcd4" stroke-width="3.5" stroke-linecap="round" />
+    <line x1="20" y1="55" x2="110" y2="55" stroke="#475569" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="20" y1="75" x2="90" y2="75" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Barcode mock (Right side) -->
+    <rect x="145" y="20" width="4" height="70" fill="#475569" />
+    <rect x="153" y="20" width="8" height="70" fill="#475569" />
+    <rect x="165" y="20" width="4" height="70" fill="#475569" />
+  </g>
+
+  <!-- Dotted pathway with airplane (Top center) -->
+  <g transform="translate(320, 100)">
+    <path d="M 0 100 Q 80 40, 150 70" fill="none" stroke="#00bcd4" stroke-width="3" stroke-dasharray="5,5" />
+    <g transform="translate(150, 70) rotate(15)">
+      <polygon points="0,0 15,4 10,8 3,6 -3,10 0,4" fill="#00bcd4" stroke="#475569" stroke-width="1.5" />
+    </g>
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 140 100 L 143 107 L 150 110 L 143 113 L 150 120 L 147 113 L 140 110 L 147 107 Z" fill="#00bcd4" opacity="0.6" />
+  <circle cx="410" cy="270" r="5" fill="#cbd5e1" />
+</svg>

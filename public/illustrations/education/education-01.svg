@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base platform -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Large Open Book (Education/Knowledge) -->
+  <g transform="translate(230, 200)">
+    <!-- Book Back Spine/Cover -->
+    <path d="M 170 192 L 170 200 C 170 190, 80 180, 10 200 L 10 192 C 80 172, 170 182, 170 192" fill="#475569" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    <path d="M 170 192 L 170 200 C 170 190, 260 180, 330 200 L 330 192 C 260 172, 170 182, 170 192" fill="#475569" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+
+    <!-- Left Page -->
+    <path d="M 170 40 C 130 50, 40 30, 10 50 L 10 190 C 40 170, 130 180, 170 170 Z" fill="#ffffff" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    <!-- Right Page -->
+    <path d="M 170 40 C 210 50, 300 30, 330 50 L 330 190 C 300 170, 210 180, 170 170 Z" fill="#ffffff" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+
+    <!-- Text line mocks (Left Page) -->
+    <line x1="40" y1="80" x2="140" y2="80" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+    <line x1="40" y1="105" x2="120" y2="105" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+    <line x1="40" y1="130" x2="140" y2="130" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+    <line x1="40" y1="155" x2="90" y2="155" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Text line mocks (Right Page) -->
+    <line x1="200" y1="80" x2="300" y2="80" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+    <line x1="200" y1="105" x2="280" y2="105" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+    <line x1="200" y1="130" x2="300" y2="130" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+    <line x1="200" y1="155" x2="250" y2="155" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Growing Sprout/Branches emerging from book center -->
+  <g transform="translate(380, 100)">
+    <path d="M 20 140 Q 10 80, -30 60" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" />
+    <path d="M 20 140 Q 30 70, 70 40" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" />
+    <path d="M 20 140 L 20 30" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" />
+
+    <!-- Left leaf -->
+    <path d="M -30 60 C -45 50, -40 30, -30 30 C -20 30, -15 50, -30 60" fill="#e0f2fe" stroke="#475569" stroke-width="2" />
+    <!-- Right leaf -->
+    <path d="M 70 40 C 85 30, 80 10, 70 10 C 60 10, 55 30, 70 40" fill="#e0f2fe" stroke="#475569" stroke-width="2" />
+    <!-- Top leaf -->
+    <path d="M 20 30 C 20 10, 35 0, 20 0 C 5 0, 20 10, 20 30" fill="#3b82f6" stroke="#475569" stroke-width="2" />
+  </g>
+
+  <!-- Glowing Lightbulb (Intellect/Insight) -->
+  <g transform="translate(130, 100)">
+    <!-- Bulb Glass -->
+    <path d="M 40 30 C 15 30, 15 70, 30 85 L 30 100 L 50 100 L 50 85 C 65 70, 65 30, 40 30 Z" fill="#ffffff" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    <!-- Metal Base -->
+    <rect x="33" y="100" width="14" height="6" fill="#cbd5e1" stroke="#475569" stroke-width="2" />
+    <rect x="35" y="106" width="10" height="6" fill="#cbd5e1" stroke="#475569" stroke-width="2" />
+    <path d="M 38 112 Q 40 116, 42 112 Z" fill="#475569" />
+    <!-- Filament -->
+    <path d="M 35 70 Q 40 60, 45 70" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" />
+    <!-- Light Glow Lines -->
+    <line x1="40" y1="10" x2="40" y2="20" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="15" y1="25" x2="23" y2="33" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="65" y1="25" x2="57" y2="33" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="8" y1="50" x2="18" y2="50" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="72" y1="50" x2="62" y2="50" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Small floating details -->
+  <circle cx="560" cy="180" r="5" fill="#cbd5e1" />
+  <circle cx="160" cy="270" r="4" fill="#3b82f6" />
+  <path d="M 570 240 Q 590 220, 610 240" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4" />
+</svg>

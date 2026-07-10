@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Brain Lightbulb (Intellect & Innovation - Center Left) -->
+  <g transform="translate(190, 110)">
+    <!-- Glow behind bulb -->
+    <circle cx="80" cy="90" r="70" fill="#e0e7ff" opacity="0.4" />
+    
+    <!-- Bulb Glass Outline -->
+    <path d="M 80 30 C 40 30, 30 75, 50 100 L 50 130 L 110 130 L 110 100 C 130 75, 120 30, 80 30 Z" fill="#ffffff" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    
+    <!-- Left Side: Brain representation -->
+    <path d="M 80 35 C 65 35, 55 45, 55 55 C 55 60, 60 65, 55 70 C 45 70, 45 85, 55 90 C 50 95, 55 105, 65 105 C 75 105, 80 115, 80 115" fill="none" stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 65 55 Q 75 60, 68 70" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" />
+    <path d="M 55 80 Q 70 80, 62 92" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Right Side: Standard Filament -->
+    <path d="M 80 35 L 80 115" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4" />
+    <path d="M 80 50 L 95 65 L 88 75 L 105 90" fill="none" stroke="#475569" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Metal Base -->
+    <rect x="65" y="130" width="30" height="8" rx="2" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+    <rect x="68" y="138" width="24" height="8" rx="2" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+    <path d="M 72 146 Q 80 152, 88 146" fill="none" stroke="#475569" stroke-width="3" />
+  </g>
+
+  <!-- Open notebook with pen (Right side) -->
+  <g transform="translate(460, 190) rotate(5)">
+    <!-- Binder Rings Notebook -->
+    <rect x="0" y="0" width="150" height="180" rx="12" fill="#ffffff" stroke="#475569" stroke-width="3" />
+    <line x1="25" y1="0" x2="25" y2="180" stroke="#cbd5e1" stroke-width="2" />
+    
+    <!-- Checklist items -->
+    <line x1="45" y1="40" x2="120" y2="40" stroke="#475569" stroke-width="3" stroke-linecap="round" />
+    <circle cx="35" cy="40" r="4" fill="#10b981" />
+    
+    <line x1="45" y1="75" x2="110" y2="75" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+    <circle cx="35" cy="75" r="4" fill="#10b981" />
+
+    <line x1="45" y1="110" x2="125" y2="110" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+    <circle cx="35" cy="110" r="4" fill="#10b981" />
+
+    <!-- Smart Pen (Orange Accent) -->
+    <g transform="translate(100, 30) rotate(-40)">
+      <rect x="0" y="0" width="10" height="120" rx="4" fill="#f97316" stroke="#475569" stroke-width="2.5" />
+      <polygon points="0,0 5,-15 10,0" fill="#475569" stroke="#475569" stroke-width="2.5" stroke-linejoin="round" />
+      <rect x="3" y="100" width="4" height="20" fill="#ffffff" />
+    </g>
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 400 120 L 403 127 L 410 130 L 403 133 L 400 140 L 397 133 L 390 130 L 397 137 Z" fill="#10b981" opacity="0.7" />
+  <circle cx="140" cy="300" r="6" fill="#cbd5e1" />
+</svg>

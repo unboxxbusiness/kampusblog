@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Monitor showing Internship coding task (Cyan/Slate - Center) -->
+  <g transform="translate(240, 150)">
+    <!-- Stand -->
+    <path d="M 130 180 L 130 220" stroke="#475569" stroke-width="5" />
+    <path x1="90" y1="220" x2="170" y2="220" d="M 90 220 L 170 220" stroke="#475569" stroke-width="5" stroke-linecap="round" />
+    
+    <!-- Screen Frame -->
+    <rect x="0" y="0" width="260" height="180" rx="12" fill="#ffffff" stroke="#475569" stroke-width="4.5" />
+    <!-- Screen inner -->
+    <rect x="15" y="15" width="230" height="150" rx="6" fill="#f0fdfa" />
+    
+    <!-- Task dashboard mock elements -->
+    <rect x="30" y="30" width="50" height="35" rx="3" fill="#e0f2fe" stroke="#3b82f6" stroke-width="2" />
+    <rect x="90" y="30" width="120" height="35" rx="3" fill="#e2e8f0" stroke="#475569" stroke-width="2" />
+    
+    <line x1="30" y1="90" x2="210" y2="90" stroke="#00bcd4" stroke-width="4" stroke-linecap="round" />
+    <line x1="30" y1="110" x2="160" y2="110" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+    <line x1="30" y1="130" x2="190" y2="130" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+  </g>
+
+  <!-- Floating Documents / Files (Job details - Left) -->
+  <g transform="translate(130, 200) rotate(-15)">
+    <rect x="0" y="0" width="70" height="100" rx="8" fill="#ffffff" stroke="#475569" stroke-width="3" />
+    <line x1="15" y1="20" x2="55" y2="20" stroke="#00bcd4" stroke-width="3" stroke-linecap="round" />
+    <line x1="15" y1="40" x2="45" y2="40" stroke="#475569" stroke-width="2" />
+    <line x1="15" y1="60" x2="50" y2="60" stroke="#94a3b8" stroke-width="2" />
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 520 110 L 523 117 L 530 120 L 523 123 L 520 130 L 517 123 L 510 120 L 517 117 Z" fill="#00bcd4" opacity="0.6" />
+  <circle cx="160" cy="330" r="5" fill="#cbd5e1" />
+</svg>

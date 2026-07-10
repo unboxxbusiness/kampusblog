@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Code Syntax Window (Left side - Technical skill) -->
+  <g transform="translate(160, 180) rotate(-3)">
+    <!-- Terminal Window -->
+    <rect x="0" y="0" width="200" height="150" rx="10" fill="#ffffff" stroke="#475569" stroke-width="3" />
+    <!-- Header bar -->
+    <path d="M 0 10 Q 0 0, 10 0 L 190 0 Q 200 0, 200 10 L 200 25 L 0 25 Z" fill="#eff6ff" stroke="#475569" stroke-width="3" />
+    <circle cx="15" cy="12" r="4" fill="#ff7043" />
+    <circle cx="30" cy="12" r="4" fill="#ffb74d" />
+    <circle cx="45" cy="12" r="4" fill="#81c784" />
+    
+    <!-- Code Editor mock lines (Blue/Orange accents) -->
+    <!-- Line 1: <div /> -->
+    <line x1="20" y1="45" x2="60" y2="45" stroke="#f97316" stroke-width="3.5" stroke-linecap="round" />
+    <line x1="70" y1="45" x2="120" y2="45" stroke="#3b82f6" stroke-width="3.5" stroke-linecap="round" />
+    
+    <!-- Line 2: indent code -->
+    <line x1="40" y1="70" x2="140" y2="70" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+    <line x1="40" y1="90" x2="100" y2="90" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- Line 3: end block -->
+    <line x1="20" y1="115" x2="50" y2="115" stroke="#f97316" stroke-width="3.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Giant gear composition (Right side - Mechanics & logic skill) -->
+  <g transform="translate(460, 150)">
+    <!-- Big Gear (Orange) -->
+    <circle cx="80" cy="80" r="50" fill="none" stroke="#f97316" stroke-width="8" />
+    <circle cx="80" cy="80" r="24" fill="none" stroke="#475569" stroke-width="3" />
+    <!-- Gear teeth -->
+    <rect x="73" y="14" width="14" height="16" rx="2" fill="#f97316" stroke="#475569" stroke-width="2.5" />
+    <rect x="73" y="130" width="14" height="16" rx="2" fill="#f97316" stroke="#475569" stroke-width="2.5" />
+    <rect x="14" y="73" width="16" height="14" rx="2" fill="#f97316" stroke="#475569" stroke-width="2.5" />
+    <rect x="130" y="73" width="16" height="14" rx="2" fill="#f97316" stroke="#475569" stroke-width="2.5" />
+    
+    <g transform="translate(80, 80) rotate(45)">
+      <rect x="-7" y="-66" width="14" height="16" rx="2" fill="#f97316" stroke="#475569" stroke-width="2.5" />
+      <rect x="-7" y="50" width="14" height="16" rx="2" fill="#f97316" stroke="#475569" stroke-width="2.5" />
+      <rect x="-66" y="-7" width="16" height="14" rx="2" fill="#f97316" stroke="#475569" stroke-width="2.5" />
+      <rect x="50" y="-7" width="16" height="14" rx="2" fill="#f97316" stroke="#475569" stroke-width="2.5" />
+    </g>
+
+    <!-- Small connected Gear (Blue - Left bottom) -->
+    <g transform="translate(-40, 90)">
+      <circle cx="20" cy="20" r="30" fill="none" stroke="#3b82f6" stroke-width="6" />
+      <circle cx="20" cy="20" r="10" fill="#ffffff" stroke="#475569" stroke-width="2" />
+      <!-- Teeth -->
+      <rect x="16" y="-14" width="8" height="10" rx="1" fill="#3b82f6" stroke="#475569" stroke-width="2" />
+      <rect x="16" y="44" width="8" height="10" rx="1" fill="#3b82f6" stroke="#475569" stroke-width="2" />
+      <rect x="-14" y="16" width="10" height="8" rx="1" fill="#3b82f6" stroke="#475569" stroke-width="2" />
+      <rect x="44" y="16" width="10" height="8" rx="1" fill="#3b82f6" stroke="#475569" stroke-width="2" />
+    </g>
+  </g>
+
+  <!-- Wrench tool detail (Center) -->
+  <g transform="translate(390, 160) rotate(-30)">
+    <rect x="10" y="40" width="14" height="70" rx="3" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+    <!-- Wrench jaws -->
+    <path d="M 0 35 C 0 15, 34 15, 34 35 L 24 35 C 24 25, 10 25, 10 35 Z" fill="#cbd5e1" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    <!-- Ring end -->
+    <circle cx="17" cy="115" r="14" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+    <circle cx="17" cy="115" r="5" fill="#ffffff" stroke="#475569" stroke-width="2" />
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 120 120 L 123 127 L 130 130 L 123 133 L 120 140 L 117 133 L 110 130 L 117 127 Z" fill="#f97316" opacity="0.6" />
+  <circle cx="340" cy="330" r="5" fill="#cbd5e1" />
+</svg>

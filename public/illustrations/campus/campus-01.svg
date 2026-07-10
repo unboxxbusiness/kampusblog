@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- University Building (Campus Landmark - Left) -->
+  <g transform="translate(160, 160)">
+    <!-- Base -->
+    <rect x="0" y="210" width="220" height="40" rx="3" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+    
+    <!-- Main Block -->
+    <rect x="25" y="100" width="170" height="110" rx="4" fill="#ffffff" stroke="#475569" stroke-width="3" />
+    
+    <!-- Dome Top -->
+    <path d="M 60 100 C 60 40, 160 40, 160 100 Z" fill="#6366f1" stroke="#475569" stroke-width="3" />
+    <!-- Clock inside dome -->
+    <circle cx="110" cy="85" r="16" fill="#ffffff" stroke="#475569" stroke-width="2.5" />
+    <path d="M 110 85 L 110 78 M 110 85 L 117 85" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Arched Windows -->
+    <rect x="50" y="130" width="24" height="50" rx="12" fill="#e0e7ff" stroke="#475569" stroke-width="2.5" />
+    <rect x="98" y="130" width="24" height="50" rx="12" fill="#e0e7ff" stroke="#475569" stroke-width="2.5" />
+    <rect x="146" y="130" width="24" height="50" rx="12" fill="#e0e7ff" stroke="#475569" stroke-width="2.5" />
+  </g>
+
+  <!-- Campus Activities / Social items (Right side) -->
+  <!-- Takeaway Coffee Cup (Student life) -->
+  <g transform="translate(480, 240) rotate(-10)">
+    <polygon points="10,0 80,0 70,120 20,120" fill="#ffffff" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    <!-- Paper sleeve -->
+    <polygon points="14,35 76,35 72,85 18,85" fill="#ffedd5" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    <!-- Hot Lid -->
+    <polygon points="5,-8 85,-8 80,0 10,0" fill="#6366f1" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    <circle cx="45" cy="60" r="10" fill="none" stroke="#f97316" stroke-width="2" />
+  </g>
+
+  <!-- Megaphone (Campus news / events announcement) -->
+  <g transform="translate(450, 110) rotate(15)">
+    <!-- Horn -->
+    <path d="M 50 40 L 110 10 C 120 30, 120 70, 110 90 L 50 60 Z" fill="#ffffff" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    <ellipse cx="110" cy="50" rx="10" ry="40" fill="#10b981" stroke="#475569" stroke-width="3" />
+    
+    <!-- Handle -->
+    <rect x="42" y="55" width="16" height="35" rx="4" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+    <rect x="30" y="45" width="25" height="15" rx="3" fill="#6366f1" stroke="#475569" stroke-width="3" />
+
+    <!-- Sound waves -->
+    <path d="M 135 30 Q 150 50, 135 70" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" />
+    <path d="M 147 18 Q 170 50, 147 82" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" />
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 390 100 L 393 107 L 400 110 L 393 113 L 390 120 L 387 113 L 380 110 L 387 107 Z" fill="#10b981" opacity="0.6" />
+  <circle cx="120" cy="300" r="5" fill="#cbd5e1" />
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Study Desk Lamp (Education focus - Left side) -->
+  <g transform="translate(140, 110)">
+    <!-- Base -->
+    <rect x="20" y="240" width="60" height="10" rx="3" fill="#475569" />
+    <!-- Rod -->
+    <path d="M 50 240 L 50 140 Q 50 80, 100 80" fill="none" stroke="#475569" stroke-width="4.5" stroke-linecap="round" />
+    
+    <!-- Lamp head (Blue) -->
+    <path d="M 85 65 L 135 90 L 105 115 Z" fill="#3b82f6" stroke="#475569" stroke-width="3.5" stroke-linejoin="round" />
+    <!-- Light cone rays -->
+    <polygon points="120,103 260,250 160,285 105,115" fill="#eff6ff" opacity="0.25" />
+  </g>
+
+  <!-- Open Study Book with content (Right side) -->
+  <g transform="translate(300, 200) rotate(2)">
+    <!-- Back Spine -->
+    <path d="M 140 162 L 140 170 C 140 160, 60 150, 10 170 L 10 162 Z" fill="#cbd5e1" stroke="#475569" stroke-width="2" />
+    <path d="M 140 162 L 140 170 C 140 160, 220 150, 270 170 L 270 162 Z" fill="#cbd5e1" stroke="#475569" stroke-width="2" />
+
+    <!-- Pages -->
+    <path d="M 140 30 C 100 40, 30 20, 10 40 L 10 160 C 30 140, 100 150, 140 140 Z" fill="#ffffff" stroke="#475569" stroke-width="3.5" stroke-linejoin="round" />
+    <path d="M 140 30 C 180 40, 250 20, 270 40 L 270 160 C 250 140, 180 150, 140 140 Z" fill="#ffffff" stroke="#475569" stroke-width="3.5" stroke-linejoin="round" />
+
+    <!-- Math/Education diagrams inside pages -->
+    <!-- Coordinate Axis -->
+    <line x1="40" y1="90" x2="110" y2="90" stroke="#94a3b8" stroke-width="2" />
+    <line x1="50" y1="60" x2="50" y2="120" stroke="#94a3b8" stroke-width="2" />
+    <path d="M 50 100 Q 75 60, 105 85" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Text rows (Right Page) -->
+    <line x1="165" y1="60" x2="245" y2="60" stroke="#475569" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="165" y1="85" x2="230" y2="85" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+    <line x1="165" y1="110" x2="245" y2="110" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 600 120 L 603 127 L 610 130 L 603 133 L 600 140 L 597 133 L 590 130 L 597 127 Z" fill="#3b82f6" opacity="0.6" />
+  <circle cx="120" cy="180" r="5" fill="#cbd5e1" />
+</svg>

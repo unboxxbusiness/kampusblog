@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Scholarship Balance Scale (Emerald/Slate) -->
+  <g transform="translate(260, 140)">
+    <!-- Main Stand -->
+    <rect x="120" y="240" width="40" height="30" rx="3" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+    <line x1="140" y1="240" x2="140" y2="20" stroke="#475569" stroke-width="5" stroke-linecap="round" />
+    
+    <!-- Balance Beam -->
+    <line x1="20" y1="40" x2="260" y2="40" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+    <circle cx="140" cy="40" r="8" fill="#10b981" stroke="#475569" stroke-width="3" />
+    
+    <!-- Left Scale (Weighing Book - Academic) -->
+    <line x1="40" y1="40" x2="40" y2="120" stroke="#475569" stroke-width="2" />
+    <!-- Scale Plate -->
+    <path d="M 0 120 C 0 150, 80 150, 80 120 Z" fill="#ffffff" stroke="#475569" stroke-width="3" />
+    <!-- Book atop Left plate -->
+    <rect x="15" y="90" width="50" height="30" rx="3" fill="#10b981" stroke="#475569" stroke-width="2.5" />
+    <line x1="25" y1="90" x2="25" y2="120" stroke="#475569" stroke-width="2" />
+
+    <!-- Right Scale (Weighing Coins - Money/Grant) -->
+    <line x1="240" y1="40" x2="240" y2="120" stroke="#475569" stroke-width="2" />
+    <!-- Scale Plate -->
+    <path d="M 200 120 C 200 150, 280 150, 280 120 Z" fill="#ffffff" stroke="#475569" stroke-width="3" />
+    <!-- Stack of Coins atop Right plate -->
+    <rect x="220" y="102" width="40" height="12" rx="2" fill="#fff7ed" stroke="#475569" stroke-width="2" />
+    <rect x="220" y="110" width="40" height="12" rx="2" fill="#ffedd5" stroke="#475569" stroke-width="2" />
+    <rect x="220" y="118" width="40" height="12" rx="2" fill="#10b981" stroke="#475569" stroke-width="2" />
+  </g>
+
+  <!-- Giant Coin with Dollar slot (Left side) -->
+  <g transform="translate(140, 220) rotate(-15)">
+    <circle cx="45" cy="45" r="40" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    <circle cx="45" cy="45" r="30" fill="#e6f4ea" stroke="#10b981" stroke-width="2" />
+    <text x="36" y="55" font-family="sans-serif" font-size="28" font-weight="900" fill="#10b981">$</text>
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 540 100 L 543 107 L 550 110 L 543 113 L 540 120 L 537 113 L 530 110 L 537 107 Z" fill="#10b981" opacity="0.6" />
+  <circle cx="150" cy="120" r="5" fill="#cbd5e1" />
+</svg>

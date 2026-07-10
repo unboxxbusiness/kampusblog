@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Student Backpack (Study preparation - Left side) -->
+  <g transform="translate(180, 180) rotate(-4)">
+    <!-- Backpack Main Body -->
+    <rect x="15" y="40" width="140" height="180" rx="40" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    <path d="M 15 130 A 70 90 0 0 0 155 130 Z" fill="#e0f2fe" opacity="0.5" />
+
+    <!-- Front Pocket -->
+    <rect x="35" y="120" width="100" height="80" rx="16" fill="#3b82f6" stroke="#475569" stroke-width="3" />
+    <line x1="35" y1="145" x2="135" y2="145" stroke="#475569" stroke-width="3" />
+
+    <!-- Top Handle -->
+    <path d="M 65 40 Q 85 15, 105 40" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Student Daily Planner/Dashboard (Right side) -->
+  <g transform="translate(430, 150) rotate(3)">
+    <!-- Shadow Board -->
+    <rect x="6" y="6" width="170" height="210" rx="14" fill="#e2e8f0" />
+    <!-- Planner Board -->
+    <rect x="0" y="0" width="170" height="210" rx="14" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    
+    <!-- Top Header -->
+    <path d="M 0 14 Q 0 0, 14 0 L 156 0 Q 170 0, 170 14 L 170 35 L 0 35 Z" fill="#3b82f6" stroke="#475569" stroke-width="3.5" />
+    <line x1="30" y1="18" x2="140" y2="18" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" />
+
+    <!-- Checklist Rows with checked circles -->
+    <g transform="translate(20, 55)">
+      <circle cx="10" cy="12" r="9" fill="none" stroke="#3b82f6" stroke-width="2.5" />
+      <path d="M 6 12 L 9 15 L 14 9" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="30" y1="12" x2="130" y2="12" stroke="#475569" stroke-width="3" stroke-linecap="round" />
+    </g>
+
+    <g transform="translate(20, 95)">
+      <circle cx="10" cy="12" r="9" fill="none" stroke="#3b82f6" stroke-width="2.5" />
+      <path d="M 6 12 L 9 15 L 14 9" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="30" y1="12" x2="110" y2="12" stroke="#475569" stroke-width="3" stroke-linecap="round" />
+    </g>
+
+    <g transform="translate(20, 135)">
+      <circle cx="10" cy="12" r="9" fill="none" stroke="#94a3b8" stroke-width="2" />
+      <line x1="30" y1="12" x2="120" y2="12" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" />
+    </g>
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 370 100 L 373 107 L 380 110 L 373 113 L 370 120 L 367 113 L 360 110 L 367 107 Z" fill="#3b82f6" opacity="0.6" />
+  <circle cx="370" cy="270" r="5" fill="#cbd5e1" />
+</svg>

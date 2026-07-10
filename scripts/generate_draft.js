@@ -1,0 +1,141 @@
+const fs = require('fs');
+const path = require('path');
+
+// 1. Helper to manually load environment variables locally
+function loadEnv() {
+  const envPath = path.join(__dirname, '..', '.env.local');
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    envContent.split('\n').forEach(line => {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) return;
+      const parts = trimmed.split('=');
+      if (parts.length >= 2) {
+        const key = parts[0]?.trim();
+        const value = parts.slice(1).join('=').trim().replace(/(^["']|["']$)/g, '');
+        if (key) process.env[key] = value;
+      }
+    });
+  }
+}
+
+loadEnv();
+
+async function main() {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    console.error('\n[!] Error: OPENAI_API_KEY is missing in your .env.local file.');
+    console.log('    Please add: OPENAI_API_KEY=your-api-key-here to .env.local first.\n');
+    process.exit(1);
+  }
+
+  const trendsPath = path.join(__dirname, '..', '.agents', 'research', 'trends_research.json');
+  if (!fs.existsSync(trendsPath)) {
+    console.error(`[!] Error: Research trends JSON not found at ${trendsPath}.`);
+    console.log('    Run: python scripts/fetch_trends.py first.\n');
+    process.exit(1);
+  }
+
+  console.log('[*] Reading trends research report...');
+  const trendsRaw = fs.readFileSync(trendsPath, 'utf8');
+  const trendsData = JSON.parse(trendsRaw);
+
+  // Grab some trending topics to summarize in the prompt
+  const topNews = trendsData.top_stories?.slice(0, 3).map(s => `- ${s.title} (${s.source})`).join('\n') || 'None';
+  const topYT = trendsData.youtube_trending?.slice(0, 3).map(y => `- ${y.title} (${y.channel})`).join('\n') || 'None';
+
+  console.log('[*] Selected trending references for AI context:');
+  console.log(topNews);
+  console.log(topYT);
+
+  const prompt = `You are the Lead Editor for Kampus Filter (a daily student intelligence platform helping students make smarter education and career decisions).
+Your task is to review today's student education trends research and draft a highly optimized, daily briefing for our readers.
+
+### Daily Niche Scraper Data:
+Top Stories & Government Notifications:
+\${topNews}
+
+Top Trending Student Videos:
+\${topYT}
+
+Choose the single most viral and relevant student admissions, scholarship, exam, or opportunity theme from the topics above.
+
+You must output a strictly structured JSON object in the exact format defined below.
+
+### Output JSON Format:
+{
+  "title": "[Engaging, keyword-rich student headline. Keep under 60 characters]",
+  "excerpt": "[Short, action-focused daily briefing summary. Keep under 150 characters]",
+  "category": "[Must match exactly one of these: University Admissions, Scholarships, Internships, Student Opportunities, Education News, Career Signals, Future Skills]",
+  "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200",
+  "author": "Kampus Filter Editorial",
+  "keywords": "[Comma-separated lowercase SEO keywords]",
+  "featured": true,
+  "tags": "[Comma-separated lowercase search tags]",
+  "content_type": "[One of: news, tutorial, comparison, tool-review]",
+  "viral_score": 90,
+  "source_name": "[The primary source name, e.g. UGC Portal, NTA, Josh Talks]",
+  "source_url": "[URL of the primary source reference]",
+  "research_ref": "[Citation reference name, e.g. UGC Notification 2026]",
+  "content": "[HTML formatted string (see formatting rules below)]"
+}
+
+### Content Formatting Rules (Strict):
+Your "content" string MUST strictly utilize standard HTML5 tags and follow this exact layout:
+
+1. **GEO Takeaways Section**: Add a '<div class="geo-takeaways"><ul><li>Bullet 1</li>...</ul></div>' at the very beginning of the body.
+2. **Authority Citations**: Add a '<div class="geo-citations"><a href="...">Source Name</a>...</div>' referencing the source URLs.
+3. **Heading Hierarchy**: Use exactly these six H2 headings in sequence, written strictly as native HTML tags (do NOT use markdown '#' or '##' hashes):
+   - '<h2>Introduction: [Briefing Subtitle]</h2>'
+   - '<h2>What Happened? [Context / News / Announcement]</h2>'
+   - '<h2>Why It Matters</h2>'
+   - '<h2>Who Should Care?</h2>' (Followed by exactly three h3 sub-sections: '<h3>1. Students and Graduates</h3>', '<h3>2. Job Seekers & Aspirants</h3>', '<h3>3. Institutions</h3>')
+   - '<h2>Eligibility, Dates & Resource Links</h2>' (If applicable, include a dates table and resource links)
+   - '<h2>What Should You Do Next?</h2>' (Actionable 3-step student checklist starting with "1. Step 1 (Action): ...")
+4. **Structured Q&A FAQ Block**: End the content body with exactly 4 detailed Q&As inside '<div class="geo-faq"><div class="faq-item"><h4 class="faq-question">Question?</h4><p class="faq-answer">Detailed Answer.</p></div>...</div>'.
+   * IMPORTANT: The FAQ block must terminate with exactly two closing divs ('</div>\\n</div>') to prevent React hydration errors. Do NOT add a third closing div.
+`;
+
+  console.log('[*] Contacting OpenAI API...');
+  try {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer \${apiKey}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: 'You are a professional educational editor. You write high-quality student briefings and output strictly formatted JSON objects.' },
+          { role: 'user', content: prompt }
+        ],
+        response_format: { type: 'json_object' },
+        temperature: 0.7
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API call failed: status \${response.status} - \${errorText}`);
+    }
+
+    const responseData = await response.json();
+    const articleJson = responseData.choices[0].message.content;
+
+    const outputPath = path.join(__dirname, '..', 'draft_article.json');
+    fs.writeFileSync(outputPath, articleJson, 'utf8');
+
+    console.log('\n============================================================');
+    console.log('  ✅ Automated Draft Generated Successfully!');
+    console.log('============================================================');
+    console.log(`  Saved to: \${outputPath}`);
+    console.log('  You are ready to publish by running: npx tsx scripts/publish_article.ts');
+    console.log('============================================================\n');
+
+  } catch (err) {
+    console.error('[!] API call or draft generation failed:', err.message);
+  }
+}
+
+main();

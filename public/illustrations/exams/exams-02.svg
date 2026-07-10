@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Target bullseye with arrow (Test focus - Left side) -->
+  <g transform="translate(180, 160)">
+    <circle cx="80" cy="80" r="70" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    <circle cx="80" cy="80" r="46" fill="#f5f3ff" stroke="#818cf8" stroke-width="2.5" />
+    <circle cx="80" cy="80" r="22" fill="#818cf8" stroke="#818cf8" stroke-width="2.5" />
+
+    <!-- Hit Arrow -->
+    <g transform="translate(80, 80) rotate(-45)">
+      <line x1="0" y1="0" x2="115" y2="0" stroke="#475569" stroke-width="3.5" stroke-linecap="round" />
+      <polygon points="95,-6 115,-10 110,0 115,10 95,6" fill="#818cf8" stroke="#475569" stroke-width="2" stroke-linejoin="round" />
+      <polygon points="0,0 -10,-4 -10,4" fill="#475569" />
+    </g>
+  </g>
+
+  <!-- Stack of prep books with pencil (Right side) -->
+  <g transform="translate(450, 180) rotate(5)">
+    <!-- Book 1 (Bottom) -->
+    <rect x="0" y="120" width="160" height="40" rx="5" fill="#f8fafc" stroke="#475569" stroke-width="3" />
+    <rect x="0" y="120" width="30" height="40" fill="#818cf8" stroke="#475569" stroke-width="3" />
+    <line x1="50" y1="140" x2="130" y2="140" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Book 2 (Top) -->
+    <rect x="15" y="80" width="140" height="40" rx="5" fill="#ffffff" stroke="#475569" stroke-width="3" />
+    <rect x="15" y="80" width="25" height="40" fill="#475569" stroke="#475569" stroke-width="3" />
+    <line x1="60" y1="100" x2="120" y2="100" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Pencil resting on book stack -->
+    <g transform="translate(10, 50) rotate(-15)">
+      <rect x="0" y="0" width="120" height="12" rx="2" fill="#fcd34d" stroke="#475569" stroke-width="2" />
+      <polygon points="0,6 -10,0 -10,12" fill="#f87171" stroke="#475569" stroke-width="2" />
+      <!-- Tip -->
+      <polygon points="-10,6 -7,3 -7,9" fill="#475569" />
+    </g>
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 390 100 L 393 107 L 400 110 L 393 113 L 390 120 L 387 113 L 380 110 L 387 107 Z" fill="#818cf8" opacity="0.6" />
+  <circle cx="120" cy="220" r="5" fill="#cbd5e1" />
+</svg>

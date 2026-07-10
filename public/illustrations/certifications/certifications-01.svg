@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base platform -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Premium Certificate / Diploma Document (Emerald/Slate) -->
+  <g transform="translate(180, 140) rotate(-4)">
+    <!-- Shadow Card -->
+    <rect x="6" y="6" width="260" height="190" rx="14" fill="#cbd5e1" />
+    
+    <!-- Main Cert Card -->
+    <rect x="0" y="0" width="260" height="190" rx="14" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    <!-- Inner Border Frame -->
+    <rect x="12" y="12" width="236" height="166" rx="8" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="4,4" />
+    
+    <!-- Seal Logo / Stamp (Bottom Left) -->
+    <circle cx="55" cy="135" r="22" fill="#e6f4ea" stroke="#10b981" stroke-width="3" />
+    <path d="M 45 135 L 52 142 L 67 127" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <!-- Signature Line (Bottom Right) -->
+    <line x1="150" y1="140" x2="220" y2="140" stroke="#475569" stroke-width="2" stroke-linecap="round" />
+    
+    <!-- Lines representation of Title and Text -->
+    <line x1="40" y1="40" x2="220" y2="40" stroke="#475569" stroke-width="4.5" stroke-linecap="round" />
+    <line x1="60" y1="65" x2="200" y2="65" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="40" y1="95" x2="220" y2="95" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Star Shield/Badge (Right side - Achievement aspect) -->
+  <g transform="translate(480, 180)">
+    <!-- Hanging Ribbons -->
+    <polygon points="35,80 50,150 20,150" fill="#3b82f6" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+    <polygon points="85,80 100,150 70,150" fill="#3b82f6" stroke="#475569" stroke-width="3" stroke-linejoin="round" />
+
+    <!-- Main Shield Circle -->
+    <circle cx="60" cy="60" r="50" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    <circle cx="60" cy="60" r="38" fill="#e0f2fe" stroke="#3b82f6" stroke-width="2" />
+    
+    <!-- Achievement Star inside -->
+    <path d="M 60 40 L 64 52 L 76 52 L 66 60 L 70 72 L 60 64 L 50 72 L 54 60 L 44 52 L 56 52 Z" fill="#3b82f6" stroke="#475569" stroke-width="1.5" />
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 470 110 L 473 117 L 480 120 L 473 123 L 470 130 L 467 123 L 460 120 L 467 117 Z" fill="#10b981" opacity="0.7" />
+  <circle cx="130" cy="220" r="5" fill="#cbd5e1" />
+</svg>

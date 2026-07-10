@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Base line -->
+  <line x1="100" y1="410" x2="700" y2="410" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Open gift box of opportunities (Emerald Theme - Center) -->
+  <g transform="translate(280, 160)">
+    <!-- Box Body -->
+    <rect x="20" y="80" width="200" height="150" rx="14" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+    
+    <!-- Ribbons on box body -->
+    <rect x="110" y="80" width="20" height="150" fill="#10b981" stroke="#475569" stroke-width="2.5" />
+    
+    <!-- Lifted Box Lid (placed floating above) -->
+    <g transform="translate(10, 30) rotate(-8)">
+      <rect x="0" y="0" width="220" height="35" rx="6" fill="#ffffff" stroke="#475569" stroke-width="3.5" />
+      <rect x="100" y="0" width="20" height="35" fill="#10b981" stroke="#475569" stroke-width="2.5" />
+      
+      <!-- Ribbon bow -->
+      <path d="M 110 0 C 90 -20, 90 -40, 110 -20 C 130 -40, 130 -20, 110 0" fill="#10b981" stroke="#475569" stroke-width="2.5" />
+    </g>
+
+    <!-- Glowing rays emerging out of opened box -->
+    <polygon points="120,80 20,-30 80,-50 120,80" fill="#e6f4ea" opacity="0.3" />
+    <polygon points="120,80 220,-30 160,-50 120,80" fill="#e6f4ea" opacity="0.3" />
+  </g>
+
+  <!-- Floating Achievement stars (Opportunities) -->
+  <g transform="translate(250, 80)">
+    <circle cx="20" cy="20" r="15" fill="#e6f4ea" />
+    <path d="M 20 10 L 23 17 L 30 18 L 25 23 L 26 30 L 20 26 L 14 30 L 15 23 L 10 18 L 17 17 Z" fill="#10b981" stroke="#475569" stroke-width="1.5" />
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M 540 100 L 543 107 L 550 110 L 543 113 L 540 120 L 537 113 L 530 110 L 537 107 Z" fill="#10b981" opacity="0.7" />
+  <circle cx="160" cy="220" r="5" fill="#cbd5e1" />
+</svg>
