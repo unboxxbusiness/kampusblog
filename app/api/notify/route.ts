@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kampusfilter.com";
     const articleUrl = `${baseUrl.replace(/\/$/, "")}/articles/${slug}`;
 
-    // 4. Send multicast messages
+    // 4. Send multicast messages (Data-only payload to prevent duplicate notifications)
     const response = await messaging.sendEachForMulticast({
       tokens: tokens,
       data: {
@@ -73,17 +73,9 @@ export async function POST(req: NextRequest) {
         image: image,
         click_action: articleUrl,
       },
-      notification: {
-        title: title,
-        body: excerpt,
-      },
       webpush: {
         headers: {
           TTL: "86400", // Keep notification for 24 hours max
-        },
-        notification: {
-          image: image,
-          icon: "/icon-192.png",
         },
         fcmOptions: {
           link: articleUrl,
