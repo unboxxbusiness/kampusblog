@@ -56,17 +56,17 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
       {/* Search form box */}
       <div className="max-w-2xl bg-secondary/25 border border-border p-4 rounded-2xl">
-        <form action="/search" method="GET" className="flex items-center gap-2">
+        <form action="/search" method="GET" className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <input
             type="text"
             name="q"
             defaultValue={searchQuery}
             placeholder="Search title, category, keywords, or content..."
-            className="flex-1 px-4 py-2 rounded-xl bg-background border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+            className="flex-1 px-4 py-2 rounded-xl bg-background border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary text-sm min-w-0"
           />
           <button
             type="submit"
-            className="bg-primary text-primary-foreground text-sm font-semibold px-5 py-2 rounded-xl hover:bg-primary/90 transition-colors flex items-center gap-1.5"
+            className="bg-primary text-primary-foreground text-sm font-semibold px-5 py-2.5 sm:py-2 rounded-xl hover:bg-primary/90 transition-colors flex items-center justify-center gap-1.5"
           >
             <Search className="h-4 w-4" />
             Search
