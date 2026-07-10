@@ -41,6 +41,7 @@ interface ArticleDraft {
   og_image?: string;
   twitter_image?: string;
   research_ref?: string;
+  metadata?: any;
 }
 
 function slugify(text: string): string {
@@ -169,7 +170,8 @@ async function publish() {
     ogImage: draft.og_image || draft.image.trim(),
     twitterImage: draft.twitter_image || draft.image.trim(),
     publishedBy: draft.author.trim(),
-    researchRef: draft.research_ref || ""
+    researchRef: draft.research_ref || "",
+    metadata: draft.metadata ? (typeof draft.metadata === 'object' ? JSON.stringify(draft.metadata) : draft.metadata) : null
   };
 
   try {
@@ -185,59 +187,74 @@ async function publish() {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kampusfilter.com";
     const articleFullUrl = `${siteUrl.replace(/\/$/, "")}/articles/${slug}`;
 
-    // 5. Trigger Webhook FCM Notifications
     const notifySecret = process.env.KAMPUSFILTER_API_KEY;
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const notifyWebhookUrl = `${baseUrl.replace(/\/$/, "")}/api/notify`;
-    const revalidateWebhookUrl = `${baseUrl.replace(/\/$/, "")}/api/revalidate`;
 
     let pushSuccess = false;
     let cacheSuccess = false;
 
     if (notifySecret) {
-      console.log(`[*] Triggering FCM push notification webhook at ${notifyWebhookUrl}...`);
-      try {
-        const payload = {
-          title: newArticle.title,
-          excerpt: newArticle.excerpt,
-          image: newArticle.image,
-          slug: newArticle.slug,
-        };
+      // Build candidate base URLs to try
+      const candidates = new Set<string>();
+      if (siteUrl) candidates.add(siteUrl.replace(/\/$/, ""));
+      candidates.add("http://localhost:3001");
+      candidates.add("http://localhost:3000");
 
-        const response = await fetch(notifyWebhookUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": notifySecret,
-          },
-          body: JSON.stringify(payload),
-        });
+      const urlsToTry = Array.from(candidates);
 
-        if (response.ok) {
-          pushSuccess = true;
-        } else {
-          console.warn(`[!] Push webhook call returned status ${response.status}`);
+      // 1. Trigger FCM Notifications on all reachable candidate servers
+      const notificationPayload = {
+        title: newArticle.title,
+        excerpt: newArticle.excerpt,
+        image: newArticle.image,
+        slug: newArticle.slug,
+      };
+
+      console.log(`[*] Triggering FCM push notification webhooks...`);
+      for (const base of urlsToTry) {
+        const notifyWebhookUrl = `${base}/api/notify`;
+        try {
+          const response = await fetch(notifyWebhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": notifySecret,
+            },
+            body: JSON.stringify(notificationPayload),
+          });
+          if (response.ok) {
+            console.log(`[+] Push notification webhook triggered successfully on ${base}`);
+            pushSuccess = true;
+          } else {
+            console.log(`[i] Push notification webhook on ${base} returned status ${response.status}`);
+          }
+        } catch (err: any) {
+          console.log(`[i] Push notification webhook on ${base} was unreachable (error: ${err.message})`);
         }
-      } catch (err: any) {
-        console.warn(`[!] Push notification webhook failed:`, err.message);
       }
 
-      // Revalidate cache
-      console.log(`[*] Triggering Next.js cache invalidation at ${revalidateWebhookUrl}...`);
-      try {
-        const revalResponse = await fetch(revalidateWebhookUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": notifySecret,
-          },
-          body: JSON.stringify({ slug: newArticle.slug, category: newArticle.category }),
-        });
-        if (revalResponse.ok) {
-          cacheSuccess = true;
+      // 2. Trigger Cache Revalidation on all reachable candidate servers
+      const revalidatePayload = { slug: newArticle.slug, category: newArticle.category };
+      console.log(`[*] Triggering Next.js cache invalidations...`);
+      for (const base of urlsToTry) {
+        const revalidateWebhookUrl = `${base}/api/revalidate`;
+        try {
+          const response = await fetch(revalidateWebhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": notifySecret,
+            },
+            body: JSON.stringify(revalidatePayload),
+          });
+          if (response.ok) {
+            console.log(`[+] Cache revalidation triggered successfully on ${base}`);
+            cacheSuccess = true;
+          } else {
+            console.log(`[i] Cache revalidation on ${base} returned status ${response.status}`);
+          }
+        } catch (err: any) {
+          console.log(`[i] Cache revalidation on ${base} was unreachable (error: ${err.message})`);
         }
-      } catch (err: any) {
-        console.warn("[!] Cache invalidation failed:", err.message);
       }
     } else {
       console.warn("[!] Webhook triggers skipped: KAMPUSFILTER_API_KEY missing.");
