@@ -21,41 +21,78 @@ export async function GET() {
 
     const messaging = firebase.messaging();
 
-    // Background messaging handler
-    messaging.onBackgroundMessage((payload) => {
-      console.log('[SW] Background notification payload received:', payload);
-      
-      const title = payload.data?.title || payload.notification?.title || 'New on Kampus Filter!';
+    // Background messaging handler — called when the app is in background/closed
+    messaging.onBackgroundMessage(function(payload) {
+      console.log('[SW] Background notification payload received:', JSON.stringify(payload));
+
+      // Support both data-only and notification+data payloads
+      const title =
+        (payload.data && payload.data.title) ||
+        (payload.notification && payload.notification.title) ||
+        'New on Kampus Filter!';
+
+      const body =
+        (payload.data && payload.data.body) ||
+        (payload.notification && payload.notification.body) ||
+        'Read the latest trends now.';
+
+      const image =
+        (payload.data && payload.data.image) ||
+        (payload.notification && payload.notification.image) ||
+        '';
+
+      const clickAction =
+        (payload.data && payload.data.click_action) ||
+        '/';
+
       const options = {
-        body: payload.data?.body || payload.notification?.body || 'Read the latest trends now.',
-        icon: payload.data?.image || payload.notification?.image || '/icon-192.png',
-        image: payload.data?.image || payload.notification?.image || '',
+        body: body,
+        icon: '/icon-192.png',
         badge: '/icon-192.png',
+        image: image || undefined,
+        tag: 'kampusfilter-notification',
+        renotify: true,
+        requireInteraction: false,
         data: {
-          click_action: payload.data?.click_action || '/'
+          click_action: clickAction,
+          url: clickAction
         }
       };
 
-      self.registration.showNotification(title, options);
+      return self.registration.showNotification(title, options);
     });
 
-    // Handle click of notification
-    self.addEventListener('notificationclick', (event) => {
+    // Handle notification click — open or focus the relevant page
+    self.addEventListener('notificationclick', function(event) {
       event.notification.close();
-      const clickActionUrl = event.notification.data?.click_action || '/';
+
+      const clickUrl =
+        (event.notification.data && (event.notification.data.click_action || event.notification.data.url)) ||
+        '/';
 
       event.waitUntil(
-        clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
-          // Focus existing window if open
-          for (let i = 0; i < windowClients.length; i++) {
-            const client = windowClients[i];
-            if (client.url === clickActionUrl && 'focus' in client) {
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(windowClients) {
+          // Try to focus an existing window that matches the target URL
+          for (var i = 0; i < windowClients.length; i++) {
+            var client = windowClients[i];
+            var clientUrl = new URL(client.url);
+            var targetUrl = new URL(clickUrl, self.location.origin);
+            if (clientUrl.href === targetUrl.href && 'focus' in client) {
               return client.focus();
             }
           }
-          // If no window is open, open a new one
+          // Try to focus any existing window and navigate it
+          for (var i = 0; i < windowClients.length; i++) {
+            var client = windowClients[i];
+            if ('navigate' in client && 'focus' in client) {
+              return client.focus().then(function() {
+                return client.navigate(clickUrl);
+              });
+            }
+          }
+          // No existing window — open a new one
           if (clients.openWindow) {
-            return clients.openWindow(clickActionUrl);
+            return clients.openWindow(clickUrl);
           }
         })
       );
@@ -65,7 +102,8 @@ export async function GET() {
   return new Response(serviceWorkerCode, {
     headers: {
       "Content-Type": "application/javascript",
-      "Cache-Control": "public, max-age=60, must-revalidate",
+      // Short cache so updated SW deploys quickly
+      "Cache-Control": "public, max-age=0, must-revalidate",
     },
   });
 }

@@ -311,7 +311,7 @@
   font-weight: 400;
 }
 
-/* Image styling */
+/* Image styling — clickable with zoom cursor */
 .article-body img {
   max-width: 100%;
   height: auto;
@@ -319,6 +319,73 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   margin: 2.2rem auto;
   display: block;
+  cursor: zoom-in;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.article-body img:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.10);
+}
+
+/* Image Lightbox Modal Overlay */
+.article-image-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  /* Solid dark background — NOT transparent */
+  background-color: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: lightbox-fade-in 0.2s ease-out forwards;
+  cursor: zoom-out;
+}
+
+@keyframes lightbox-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.article-image-lightbox img {
+  max-width: 92vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  cursor: zoom-out;
+  margin: 0 auto;
+  animation: lightbox-zoom-in 0.2s ease-out forwards;
+}
+
+@keyframes lightbox-zoom-in {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.article-image-lightbox-close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 1.25rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  z-index: 10000;
+}
+
+.article-image-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* Highlighting */

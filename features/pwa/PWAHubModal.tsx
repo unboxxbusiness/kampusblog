@@ -132,20 +132,23 @@ export default function PWAHubModal() {
         return;
       }
 
-      // Explicit SW registration to avoid Next.js routing scopes conflicts
-      console.log("[FCM Push Setup] Registering service worker...");
+      // Wait for the primary SW to be ready first, then register FCM SW
+      console.log("[FCM Push Setup] Waiting for service worker to be ready...");
+      await navigator.serviceWorker.ready;
+
+      // Explicit FCM SW registration to avoid Next.js routing scope conflicts
+      console.log("[FCM Push Setup] Registering Firebase messaging service worker...");
       const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js", { updateViaCache: "none" });
 
-      // FIX: Wait for the service worker to become fully active/activated
-      // This prevents the 'Subscription failed - no active Service Worker' AbortError.
+      // Wait for the FCM SW to become fully active before calling getToken
       if (!registration.active) {
-        console.log("[FCM Push Setup] Waiting for service worker to activate...");
+        console.log("[FCM Push Setup] Waiting for FCM service worker to activate...");
         await new Promise<void>((resolve) => {
           const serviceWorker = registration.installing || registration.waiting;
           if (serviceWorker) {
             serviceWorker.addEventListener("statechange", (e: any) => {
               if (e.target.state === "activated") {
-                console.log("[FCM Push Setup] Service worker activated!");
+                console.log("[FCM Push Setup] FCM service worker activated!");
                 resolve();
               }
             });
@@ -190,7 +193,12 @@ export default function PWAHubModal() {
       }
 
       localStorage.setItem("fcm_subscribed", "true");
+      // Persist dismissed state so auto-prompt doesn't re-fire
+      localStorage.setItem("fcm_prompt_dismissed", "true");
       setIsSubscribed(true);
+      // Sync header bell state
+      window.dispatchEvent(new Event("storage"));
+      window.dispatchEvent(new Event("fcm-subscription-changed"));
 
       // Trigger Confetti!
       import("canvas-confetti").then((module) => {
@@ -211,7 +219,7 @@ export default function PWAHubModal() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/60 backdrop-blur-sm animate-fade-in-up">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in-up">
       <div className="w-full max-w-lg bg-card border border-border rounded-2xl shadow-2xl p-6 relative overflow-hidden">
         {/* Top gradient bubble */}
         <div className="absolute -top-12 -right-12 w-36 h-36 bg-primary/10 rounded-full blur-3xl pointer-events-none" />

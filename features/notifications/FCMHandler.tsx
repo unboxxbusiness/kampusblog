@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Bell, X, ShieldCheck, Loader2, AlertTriangle } from "lucide-react";
 import { collection, addDoc, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import { getToken, onMessage } from "firebase/messaging";
@@ -11,6 +11,8 @@ export default function FCMHandler() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"default" | "granted" | "denied" | "unsupported">("default");
   const [isSubscribed, setIsSubscribed] = useState(false);
+  // Prevent the auto-prompt from firing multiple times in a session
+  const autoPromptFiredRef = useRef(false);
 
   useEffect(() => {
     // 1. Listen for header button click trigger
@@ -35,16 +37,24 @@ export default function FCMHandler() {
     window.addEventListener("storage", updateSubscriptionStatus);
     window.addEventListener("fcm-subscription-changed", updateSubscriptionStatus);
 
-    // 3. Auto-prompt logic on first visit if permission is not set
+    // 3. Auto-prompt logic — only if permission is still "default" AND never dismissed
     let timer: NodeJS.Timeout | undefined;
     if (typeof window !== "undefined" && "Notification" in window) {
-      if (Notification.permission === "default") {
+      if (
+        Notification.permission === "default" &&
+        !autoPromptFiredRef.current &&
+        localStorage.getItem("fcm_prompt_dismissed") !== "true"
+      ) {
+        autoPromptFiredRef.current = true;
         timer = setTimeout(() => {
-          const dismissed = sessionStorage.getItem("fcm_prompt_dismissed") === "true";
-          if (!dismissed) {
+          // Double-check nothing changed while we waited
+          if (
+            Notification.permission === "default" &&
+            localStorage.getItem("fcm_prompt_dismissed") !== "true"
+          ) {
             setShowModal(true);
           }
-        }, 4000);
+        }, 5000);
       }
     }
 
@@ -55,11 +65,15 @@ export default function FCMHandler() {
         unsubscribeOnMessage = onMessage(messaging, (payload) => {
           console.log("Foreground message received:", payload);
           if (Notification.permission === "granted") {
-            const notificationTitle = payload.notification?.title || "New Update from Kampus Filter";
+            const notificationTitle =
+              payload.data?.title ||
+              payload.notification?.title ||
+              "New Update from Kampus Filter";
             const notificationOptions = {
-              body: payload.notification?.body || "",
-              icon: payload.notification?.image || "/icon-192.png",
-              data: payload.data
+              body: payload.data?.body || payload.notification?.body || "",
+              icon: payload.data?.image || payload.notification?.image || "/icon-192.png",
+              badge: "/icon-192.png",
+              data: payload.data,
             };
             new Notification(notificationTitle, notificationOptions);
           }
@@ -107,40 +121,66 @@ export default function FCMHandler() {
     setLoading(true);
 
     try {
-      // 1. Request permission
+      // 1. Request browser permission
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
         setStatus("denied");
         setLoading(false);
         setShowModal(false);
-        sessionStorage.setItem("fcm_prompt_dismissed", "true");
+        localStorage.setItem("fcm_prompt_dismissed", "true");
         localStorage.setItem("fcm_subscribed", "false");
         return;
       }
 
       setStatus("granted");
 
-      // 2. Register FCM Service Worker explicitly to avoid Next.js routing scope conflicts
-      const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js", { updateViaCache: "none" });
+      // 2. Wait for SW to be fully ready before requesting token
+      //    Using navigator.serviceWorker.ready is the most reliable approach.
+      console.log("[FCM] Waiting for service worker to be ready...");
+      const registration = await navigator.serviceWorker.ready;
 
-      // 3. Fetch FCM Token from Service Worker
+      // 3. Also register the Firebase Messaging SW explicitly so FCM can use it
+      let fcmRegistration = registration;
+      try {
+        fcmRegistration = await navigator.serviceWorker.register(
+          "/firebase-messaging-sw.js",
+          { updateViaCache: "none" }
+        );
+        // Wait until the FCM SW is active before calling getToken
+        if (!fcmRegistration.active) {
+          await new Promise<void>((resolve) => {
+            const sw = fcmRegistration.installing || fcmRegistration.waiting;
+            if (sw) {
+              sw.addEventListener("statechange", (e: any) => {
+                if (e.target.state === "activated") resolve();
+              });
+            } else {
+              resolve();
+            }
+          });
+        }
+      } catch (swErr) {
+        console.warn("[FCM] Could not register Firebase SW separately, using existing SW:", swErr);
+      }
+
+      // 4. Fetch FCM Token
       const vapidKey = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY || "";
+      console.log("[FCM] Fetching FCM token...");
       const fcmToken = await getToken(messaging, {
         vapidKey,
-        serviceWorkerRegistration: registration,
+        serviceWorkerRegistration: fcmRegistration,
       });
 
       if (!fcmToken) {
-        throw new Error("No FCM token generated.");
+        throw new Error("No FCM token generated. Check VAPID key and SW registration.");
       }
 
-      // 3. Store Token inside Firestore
+      // 5. Upsert token in Firestore
       const notificationsRef = collection(firestore, "notifications");
       const q = query(notificationsRef, where("fcm_token", "==", fcmToken));
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
-        // Create new subscriber doc
         await addDoc(notificationsRef, {
           fcm_token: fcmToken,
           browser: getBrowserName(),
@@ -150,7 +190,6 @@ export default function FCMHandler() {
           created_at: new Date().toISOString(),
         });
       } else {
-        // If already exists, mark as active
         const existingDocId = querySnapshot.docs[0].id;
         const docRef = doc(firestore, "notifications", existingDocId);
         await updateDoc(docRef, {
@@ -159,25 +198,24 @@ export default function FCMHandler() {
         });
       }
 
-      // Update states
+      // 6. Persist subscription state
       localStorage.setItem("fcm_subscribed", "true");
-      // Trigger header bell update
+      localStorage.setItem("fcm_prompt_dismissed", "true");
       window.dispatchEvent(new Event("storage"));
       window.dispatchEvent(new Event("fcm-subscription-changed"));
-      
-      // Trigger success confetti
+
+      // 7. Celebrate with confetti
       import("canvas-confetti").then((module) => {
-        module.default({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-        });
+        module.default({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       });
-      
+
       setShowModal(false);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to subscribe user to FCM:", err);
-      alert("Notification setup failed. Please try again or clear browser permissions.");
+      alert(
+        "Notification setup failed. Please try again or check your browser permissions.\n\n" +
+        (err?.message || "")
+      );
     } finally {
       setLoading(false);
     }
@@ -213,10 +251,10 @@ export default function FCMHandler() {
         }
       }
 
-      // Update states local and dispatch event to sync Header Bell
       localStorage.setItem("fcm_subscribed", "false");
       window.dispatchEvent(new Event("storage"));
       window.dispatchEvent(new Event("fcm-subscription-changed"));
+      setIsSubscribed(false);
       setShowModal(false);
     } catch (err) {
       console.error("Failed to unsubscribe user from FCM:", err);
@@ -231,7 +269,8 @@ export default function FCMHandler() {
 
   const handleDismiss = () => {
     setShowModal(false);
-    sessionStorage.setItem("fcm_prompt_dismissed", "true");
+    // Persist the dismissed state so auto-prompt doesn't fire again
+    localStorage.setItem("fcm_prompt_dismissed", "true");
   };
 
   if (!showModal) return null;
@@ -240,7 +279,8 @@ export default function FCMHandler() {
   let modalIcon = <Bell className="h-7 w-7 animate-bounce" />;
   let modalIconBg = "bg-primary/10 text-primary";
   let modalTitle = "Enable Push Notifications";
-  let modalDesc = "Be the first to get student admission briefings, scholarship deadlines, and internship alerts. No spam, just pure insights.";
+  let modalDesc =
+    "Be the first to get student admission briefings, scholarship deadlines, and internship alerts. No spam, just pure insights.";
   let modalFooter = (
     <div className="flex w-full gap-3">
       <button
@@ -264,7 +304,8 @@ export default function FCMHandler() {
     modalIcon = <AlertTriangle className="h-7 w-7" />;
     modalIconBg = "bg-amber-100 dark:bg-amber-950/20 text-amber-500";
     modalTitle = "Unsupported Browser";
-    modalDesc = "Push notifications are not supported in this browser environment. Please open this app in Chrome, Firefox, or Safari to enable alerts.";
+    modalDesc =
+      "Push notifications are not supported in this browser environment. Please open this app in Chrome, Firefox, or Safari to enable alerts.";
     modalFooter = (
       <button
         onClick={handleDismiss}
@@ -277,7 +318,8 @@ export default function FCMHandler() {
     modalIcon = <AlertTriangle className="h-7 w-7 text-destructive" />;
     modalIconBg = "bg-red-100 dark:bg-red-950/20 text-destructive";
     modalTitle = "Notifications Blocked";
-    modalDesc = "You have previously blocked notifications for this site. To receive alerts, click the site settings/lock icon in your browser address bar and reset permission to 'Allow'.";
+    modalDesc =
+      "You have previously blocked notifications for this site. To receive alerts, click the site settings/lock icon in your browser address bar and reset permission to 'Allow'.";
     modalFooter = (
       <button
         onClick={handleDismiss}
@@ -290,7 +332,8 @@ export default function FCMHandler() {
     modalIcon = <ShieldCheck className="h-7 w-7 text-emerald-500" />;
     modalIconBg = "bg-emerald-100 dark:bg-emerald-950/20 text-emerald-500";
     modalTitle = "Notifications Active";
-    modalDesc = "You are successfully subscribed! You will receive real-time notifications for student admissions, scholarship circulars, and internship alerts.";
+    modalDesc =
+      "You are successfully subscribed! You will receive real-time notifications for student admissions, scholarship circulars, and internship alerts.";
     modalFooter = (
       <div className="flex w-full gap-3">
         <button
@@ -312,7 +355,8 @@ export default function FCMHandler() {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/60 backdrop-blur-sm animate-fade-in-up">
+    // FIX: Use bg-black/50 instead of bg-background/60 which was near-transparent on some themes
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in-up">
       <div className="w-full max-w-md bg-card border border-border rounded-2xl shadow-2xl p-6 relative overflow-hidden">
         {/* Decorative background gradient */}
         <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
