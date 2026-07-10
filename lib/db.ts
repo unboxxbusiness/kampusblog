@@ -2,8 +2,8 @@ import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import * as schema from "../db/schema";
 
-const url = process.env.TURSO_CONNECTION_URL;
-const authToken = process.env.TURSO_AUTH_TOKEN;
+const url = process.env.TURSO_CONNECTION_URL?.replace(/(^["']|["']$)/g, "");
+const authToken = process.env.TURSO_AUTH_TOKEN?.replace(/(^["']|["']$)/g, "");
 
 if (!url && process.env.NODE_ENV !== "production") {
   console.warn("Warning: TURSO_CONNECTION_URL environment variable is missing.");

@@ -225,7 +225,8 @@ async function publish() {
             console.log(`[+] Push notification webhook triggered successfully on ${base}`);
             pushSuccess = true;
           } else {
-            console.log(`[i] Push notification webhook on ${base} returned status ${response.status}`);
+            const errorText = await response.text().catch(() => "No error details available");
+            console.log(`[i] Push notification webhook on ${base} returned status ${response.status}. Details: ${errorText}`);
           }
         } catch (err: any) {
           console.log(`[i] Push notification webhook on ${base} was unreachable (error: ${err.message})`);
@@ -250,7 +251,8 @@ async function publish() {
             console.log(`[+] Cache revalidation triggered successfully on ${base}`);
             cacheSuccess = true;
           } else {
-            console.log(`[i] Cache revalidation on ${base} returned status ${response.status}`);
+            const errorText = await response.text().catch(() => "No error details available");
+            console.log(`[i] Cache revalidation on ${base} returned status ${response.status}. Details: ${errorText}`);
           }
         } catch (err: any) {
           console.log(`[i] Cache revalidation on ${base} was unreachable (error: ${err.message})`);
