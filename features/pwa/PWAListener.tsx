@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Download, X } from "lucide-react";
+import { Download, X, Share } from "lucide-react";
 
 export default function PWAListener() {
   const [showBanner, setShowBanner] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isIOS, setIsIOS] = useState(false);
+  const [showIOSInstructions, setShowIOSInstructions] = useState(false);
 
   useEffect(() => {
     // 1. Register Service Worker in production
@@ -13,9 +15,7 @@ export default function PWAListener() {
       typeof window !== "undefined" &&
       "serviceWorker" in navigator
     ) {
-      // In Next.js, wait for full load before registering to avoid blocking primary loads
       const registerSW = () => {
-        // Register main PWA service worker
         navigator.serviceWorker
           .register("/sw.js")
           .then((reg) => {
@@ -33,12 +33,24 @@ export default function PWAListener() {
       }
     }
 
-    // 2. Listen to browser PWA install prompt
+    // 2. Identify standalone vs browser context
+    const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (navigator as any).standalone === true;
+    const isIOSDevice = /ipad|iphone|ipod/i.test(navigator.userAgent) && !(window as any).MSStream;
+    setIsIOS(isIOSDevice);
+
+    // If iOS Safari & not running inside standalone PWA, show PWA promo banner
+    if (isIOSDevice && !isStandalone) {
+      const dismissed = sessionStorage.getItem("pwa_dismissed") === "true";
+      if (!dismissed) {
+        setShowBanner(true);
+      }
+    }
+
+    // 3. Listen to browser PWA install prompt for Android/Desktop
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e);
       
-      // Don't show if user dismissed it in this browser session
       const dismissed = sessionStorage.getItem("pwa_dismissed") === "true";
       if (!dismissed) {
         setShowBanner(true);
@@ -53,6 +65,10 @@ export default function PWAListener() {
   }, []);
 
   const handleInstall = async () => {
+    if (isIOS) {
+      setShowIOSInstructions(true);
+      return;
+    }
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
@@ -91,6 +107,21 @@ export default function PWAListener() {
           <X className="h-4 w-4" />
         </button>
       </div>
+
+      {showIOSInstructions ? (
+        <div className="bg-secondary/50 p-2.5 rounded-lg border border-border text-xs text-foreground flex flex-col gap-1.5 animate-fade-in-up">
+          <div className="font-semibold flex items-center gap-1">
+            Instructions:
+          </div>
+          <p className="leading-relaxed flex items-center gap-1.5 flex-wrap">
+            1. Tap the Share button <Share className="h-3.5 w-3.5 inline text-primary" /> in Safari's bottom menu bar.
+          </p>
+          <p className="leading-relaxed">
+            2. Scroll down and select <span className="font-semibold">"Add to Home Screen"</span>.
+          </p>
+        </div>
+      ) : null}
+
       <div className="flex gap-2">
         <button
           onClick={handleDismiss}
@@ -103,7 +134,7 @@ export default function PWAListener() {
           className="flex-1 bg-primary text-primary-foreground text-xs font-semibold py-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-1.5 shadow-sm"
         >
           <Download className="h-3.5 w-3.5" />
-          Install
+          {isIOS ? "How to Install" : "Install"}
         </button>
       </div>
     </div>

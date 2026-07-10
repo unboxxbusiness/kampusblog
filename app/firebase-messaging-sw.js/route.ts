@@ -13,7 +13,7 @@ export async function GET() {
   };
 
   const serviceWorkerCode = `
-    const CACHE_NAME = "kampusfilter-cache-v4";
+    const CACHE_NAME = "kampusfilter-cache-v5";
     const OFFLINE_URL = "/offline";
 
     const STATIC_ASSETS = [
@@ -51,7 +51,7 @@ export async function GET() {
       self.clients.claim();
     });
 
-    // 3. Fetch Event (Caching strategy: Network-First for navigation, Stale-While-Revalidate for static assets)
+    // 3. Fetch Event (Caching strategy with Network/Data saving intelligence)
     self.addEventListener("fetch", (event) => {
       if (event.request.method !== "GET") return;
 
@@ -67,11 +67,17 @@ export async function GET() {
         return;
       }
 
+      // Smart Network & Connection check
+      const isDataSavingMode = navigator.connection && (
+        navigator.connection.saveData ||
+        ['2g', '3g'].includes(navigator.connection.effectiveType)
+      );
+
       if (event.request.mode === "navigate") {
         event.respondWith(
           fetch(event.request)
             .then((response) => {
-              if (response && response.status === 200) {
+              if (response && response.status === 200 && !isDataSavingMode) {
                 const responseCopy = response.clone();
                 caches.open(CACHE_NAME).then((cache) => {
                   cache.put(event.request, responseCopy);
@@ -90,9 +96,11 @@ export async function GET() {
 
       event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) return cachedResponse;
+
           const fetchPromise = fetch(event.request)
             .then((networkResponse) => {
-              if (networkResponse && networkResponse.status === 200) {
+              if (networkResponse && networkResponse.status === 200 && !isDataSavingMode) {
                 const responseCopy = networkResponse.clone();
                 caches.open(CACHE_NAME).then((cache) => {
                   cache.put(event.request, responseCopy);
@@ -102,7 +110,7 @@ export async function GET() {
             })
             .catch(() => {});
 
-          return cachedResponse || fetchPromise;
+          return fetchPromise;
         })
       );
     });
@@ -155,7 +163,7 @@ export async function GET() {
       return self.registration.showNotification(title, options);
     });
 
-    // 6. Notification click handler — open or focus the relevant page
+    // 6. Notification click handler
     self.addEventListener('notificationclick', function(event) {
       event.notification.close();
 

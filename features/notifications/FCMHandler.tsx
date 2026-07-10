@@ -37,24 +37,62 @@ export default function FCMHandler() {
     window.addEventListener("storage", updateSubscriptionStatus);
     window.addEventListener("fcm-subscription-changed", updateSubscriptionStatus);
 
-    // 3. Auto-prompt logic — only if permission is still "default" AND never dismissed
+    // 3. Auto-prompt logic with smart engagement checks, iOS browser bypass, and frequency muting
     let timer: NodeJS.Timeout | undefined;
+    let cleanupScrollListener: (() => void) | undefined;
+
     if (typeof window !== "undefined" && "Notification" in window) {
+      const dismissedCount = parseInt(localStorage.getItem("fcm_dismissed_count") || "0", 10);
+      const lastDismissed = parseInt(localStorage.getItem("fcm_last_dismissed_time") || "0", 10);
+      const oneMonth = 30 * 24 * 60 * 60 * 1000;
+      const isMuted = dismissedCount >= 2 && (Date.now() - lastDismissed < oneMonth);
+
+      const isIOSDevice = /ipad|iphone|ipod/i.test(navigator.userAgent) && !(window as any).MSStream;
+      const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (navigator as any).standalone === true;
+
+      // Do NOT auto-prompt iOS browser users (only prompt inside PWA standalone where push acts natively)
+      const shouldBypassPrompt = isIOSDevice && !isStandalone;
+
       if (
         Notification.permission === "default" &&
         !autoPromptFiredRef.current &&
-        localStorage.getItem("fcm_prompt_dismissed") !== "true"
+        !isMuted &&
+        !shouldBypassPrompt
       ) {
-        autoPromptFiredRef.current = true;
-        timer = setTimeout(() => {
-          // Double-check nothing changed while we waited
-          if (
-            Notification.permission === "default" &&
-            localStorage.getItem("fcm_prompt_dismissed") !== "true"
-          ) {
-            setShowModal(true);
-          }
-        }, 5000);
+        const triggerPrompt = () => {
+          if (autoPromptFiredRef.current) return;
+          autoPromptFiredRef.current = true;
+          setShowModal(true);
+          if (cleanupScrollListener) cleanupScrollListener();
+        };
+
+        const isAlreadyEngaged = localStorage.getItem("fcm_highly_engaged") === "true";
+
+        if (isAlreadyEngaged) {
+          timer = setTimeout(triggerPrompt, 4000);
+        } else {
+          // Detect user scrolling down >40% of the page
+          const handleScroll = () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            if (scrollHeight > 0 && (scrollTop / scrollHeight) > 0.4) {
+              localStorage.setItem("fcm_highly_engaged", "true");
+              triggerPrompt();
+            }
+          };
+
+          cleanupScrollListener = () => {
+            window.removeEventListener("scroll", handleScroll);
+          };
+
+          window.addEventListener("scroll", handleScroll);
+
+          // 30 seconds page dwell timer as fallback engagement
+          timer = setTimeout(() => {
+            localStorage.setItem("fcm_highly_engaged", "true");
+            triggerPrompt();
+          }, 30000);
+        }
       }
     }
 
@@ -244,7 +282,10 @@ export default function FCMHandler() {
 
   const handleDismiss = () => {
     setShowModal(false);
-    // Persist the dismissed state so auto-prompt doesn't fire again
+    // Smart frequency capping: increment dismissed count and record timestamp
+    const count = parseInt(localStorage.getItem("fcm_dismissed_count") || "0", 10) + 1;
+    localStorage.setItem("fcm_dismissed_count", count.toString());
+    localStorage.setItem("fcm_last_dismissed_time", Date.now().toString());
     localStorage.setItem("fcm_prompt_dismissed", "true");
   };
 
