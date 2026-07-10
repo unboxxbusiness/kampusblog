@@ -75,7 +75,8 @@
 
 /* Premium links with animated slide-in underline */
 .article-body a {
-  color: var(--color-primary);
+  /* In light mode: use dark amber for readable text; dark mode: bright amber */
+  color: var(--primary-text, var(--color-primary));
   font-weight: 600;
   text-decoration: none;
   position: relative;
@@ -90,18 +91,31 @@
   height: 2px;
   bottom: -1px;
   left: 0;
-  background-color: var(--color-primary);
+  background-color: var(--primary-text, var(--color-primary));
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
 }
 
 .article-body a:hover {
-  color: hsl(var(--primary) / 0.85);
+  color: var(--primary-text, var(--color-primary));
+  opacity: 0.8;
 }
 
 .article-body a:hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
+}
+
+/* Dark mode: switch back to bright amber for links */
+.dark .article-body a {
+  color: var(--color-primary);
+}
+.dark .article-body a::after {
+  background-color: var(--color-primary);
+}
+.dark .article-body a:hover {
+  color: var(--color-primary);
+  opacity: 0.85;
 }
 
 /* External Link indicator */
