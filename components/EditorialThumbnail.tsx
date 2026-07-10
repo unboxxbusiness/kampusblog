@@ -170,7 +170,7 @@ export function EditorialThumbnail({
   const styles = CATEGORY_BG_CONFIGS[folder] || DEFAULT_BG;
   const variation = getIllustrationVariation(title, folder);
   
-  const illustrationSrc = `/api/illustrations?folder=${folder}&variation=${variation}`;
+  const illustrationSrc = `/illustrations/${folder}/${folder}-${variation}.svg`;
 
   return (
     <div
@@ -186,7 +186,7 @@ export function EditorialThumbnail({
           const target = e.target as HTMLImageElement;
           if (!target.getAttribute("data-fallback")) {
             target.setAttribute("data-fallback", "true");
-            target.src = "/api/illustrations?folder=education&variation=01";
+            target.src = "/illustrations/education/education-01.svg";
           }
         }}
       />

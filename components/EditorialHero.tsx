@@ -368,7 +368,7 @@ export function EditorialHero({
 
   // Resolve dynamic variation path
   const variation = getIllustrationVariation(title, folder);
-  const illustrationSrc = `/api/illustrations?folder=${folder}&variation=${variation}`;
+  const illustrationSrc = `/illustrations/${folder}/${folder}-${variation}.svg`;
 
   return (
     <div className="w-full mb-10">
@@ -413,7 +413,7 @@ export function EditorialHero({
                 const target = e.target as HTMLImageElement;
                 if (!target.getAttribute("data-fallback")) {
                   target.setAttribute("data-fallback", "true");
-                  target.src = "/api/illustrations?folder=education&variation=01";
+                  target.src = "/illustrations/education/education-01.svg";
                 }
               }}
             />
