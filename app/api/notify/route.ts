@@ -120,6 +120,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (err: any) {
     console.error("FCM Webhook handler exception:", err);
-    return NextResponse.json({ error: "FCM Sending failed.", details: err.message }, { status: 500 });
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

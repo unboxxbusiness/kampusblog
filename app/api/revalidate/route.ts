@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ revalidated: true, now: Date.now() });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error("Cache revalidation error:", err);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

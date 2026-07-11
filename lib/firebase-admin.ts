@@ -18,6 +18,9 @@ if (!admin.apps.length) {
         }),
       });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        throw new Error("CRITICAL ERROR: Firebase Admin SDK credentials are not fully configured in production!");
+      }
       // Local fallback for build environment or mock testing
       if (process.env.NODE_ENV === "development") {
         console.warn("Firebase Admin SDK credentials not fully provided. Messaging and admin operations will fail.");
