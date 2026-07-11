@@ -2,6 +2,7 @@
 
 import { adminDb } from "@/lib/firebase-admin";
 import { z } from "zod";
+import { checkRateLimit } from "@/utils/rate-limiter";
 
 const newsletterSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }).max(50),
@@ -23,6 +24,11 @@ export async function submitNewsletterAction(data: {
   mobileNumber?: string;
   sourcePage: string;
 }) {
+  const isAllowed = await checkRateLimit(5, 60000);
+  if (!isAllowed) {
+    return { success: false, error: "Too many requests. Please wait a minute and try again." };
+  }
+
   const result = newsletterSchema.safeParse(data);
   if (!result.success) {
     const errorMsg = result.error.errors[0]?.message || "Validation error";

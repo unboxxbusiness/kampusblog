@@ -35,15 +35,15 @@ async function deleteCollection(db, collectionRef) {
 async function main() {
   const env = loadEnv();
 
-  // Support both standard environment or loaded .env.local
-  const projectId = env.FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID;
-  const clientEmail = env.FIREBASE_CLIENT_EMAIL || process.env.FIREBASE_CLIENT_EMAIL;
-  const privateKeyRaw = env.FIREBASE_PRIVATE_KEY || process.env.FIREBASE_PRIVATE_KEY;
+  // Support both standard environment or loaded .env.local (including admin-prefixed variants)
+  const projectId = env.FIREBASE_PROJECT_ID || env.FIREBASE_ADMIN_PROJECT_ID || process.env.FIREBASE_PROJECT_ID || process.env.FIREBASE_ADMIN_PROJECT_ID;
+  const clientEmail = env.FIREBASE_CLIENT_EMAIL || env.FIREBASE_ADMIN_CLIENT_EMAIL || process.env.FIREBASE_CLIENT_EMAIL || process.env.FIREBASE_ADMIN_CLIENT_EMAIL;
+  const privateKeyRaw = env.FIREBASE_PRIVATE_KEY || env.FIREBASE_ADMIN_PRIVATE_KEY || process.env.FIREBASE_PRIVATE_KEY || process.env.FIREBASE_ADMIN_PRIVATE_KEY;
   const privateKey = privateKeyRaw ? privateKeyRaw.replace(/\\n/g, "\n") : undefined;
 
   if (!projectId || !clientEmail || !privateKey) {
     console.error("\n[!] Error: Firebase Admin SDK credentials missing from .env.local.");
-    console.error("Please ensure FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY are set.\n");
+    console.error("Please ensure FIREBASE_PROJECT_ID (or FIREBASE_ADMIN_PROJECT_ID), FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY are set.\n");
     process.exit(1);
   }
 

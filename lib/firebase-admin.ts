@@ -2,9 +2,9 @@ import * as admin from "firebase-admin";
 
 if (!admin.apps.length) {
   try {
-    const projectId = process.env.FIREBASE_PROJECT_ID?.replace(/(^["']|["']$)/g, "");
-    const clientEmail = process.env.FIREBASE_CLIENT_EMAIL?.replace(/(^["']|["']$)/g, "");
-    let privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/(^["']|["']$)/g, "");
+    const projectId = (process.env.FIREBASE_PROJECT_ID || process.env.FIREBASE_ADMIN_PROJECT_ID)?.replace(/(^["']|["']$)/g, "");
+    const clientEmail = (process.env.FIREBASE_CLIENT_EMAIL || process.env.FIREBASE_ADMIN_CLIENT_EMAIL)?.replace(/(^["']|["']$)/g, "");
+    let privateKey = (process.env.FIREBASE_PRIVATE_KEY || process.env.FIREBASE_ADMIN_PRIVATE_KEY)?.replace(/(^["']|["']$)/g, "");
     if (privateKey) {
       privateKey = privateKey.replace(/\\n/g, "\n");
     }

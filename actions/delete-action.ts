@@ -2,12 +2,18 @@
 
 import { adminDb } from "@/lib/firebase-admin";
 import { z } from "zod";
+import { checkRateLimit } from "@/utils/rate-limiter";
 
 const deleteSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
 });
 
 export async function deleteUserDataAction(data: { email: string }) {
+  const isAllowed = await checkRateLimit(5, 60000);
+  if (!isAllowed) {
+    return { success: false, error: "Too many requests. Please wait a minute and try again." };
+  }
+
   const result = deleteSchema.safeParse(data);
   if (!result.success) {
     const errorMsg = result.error.errors[0]?.message || "Validation error";
