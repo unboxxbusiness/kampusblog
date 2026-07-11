@@ -60,24 +60,26 @@
 }
 
 /* ============================================================
-   LIGHT MODE (WCAG AAA Compliance)
+   LIGHT MODE (WCAG 2.2 AAA Compliance)
    ============================================================ */
 :root {
   --background: #ffffff;
   --foreground: #14213d;
 
-  --card: #e5e5e5;
+  --card: #ffffff;
   --card-foreground: #14213d;
 
-  --popover: #e5e5e5;
+  --popover: #ffffff;
   --popover-foreground: #14213d;
 
   --primary: #14213d;
   --primary-foreground: #ffffff;
   --primary-text: #14213d;
+  --primary-hover: #0d1527;
 
-  --secondary: #e5e5e5;
+  --secondary: transparent;
   --secondary-foreground: #14213d;
+  --secondary-hover-bg: rgba(20, 33, 61, 0.08);
 
   --muted: #e5e5e5;
   --muted-foreground: rgba(20, 33, 61, 0.75);
@@ -85,18 +87,23 @@
   --accent: #fca311;
   --accent-foreground: #14213d;
 
-  --destructive: #dc2626;
+  --destructive: #000000;
   --destructive-foreground: #ffffff;
 
-  --border: #14213d;
-  --input: #e5e5e5;
-  --ring: #fca311;
+  --border: rgba(20, 33, 61, 0.15);
+  --input-bg: #ffffff;
+  --input-fg: #14213d;
+  --input-border: rgba(20, 33, 61, 0.15);
+  
+  --table-header-bg: #14213d;
+  --table-header-fg: #ffffff;
 
+  --ring: #fca311;
   --radius: 0.75rem;
 }
 
 /* ============================================================
-   DARK MODE (WCAG AAA Compliance)
+   DARK MODE (WCAG 2.2 AAA Compliance)
    ============================================================ */
 .dark {
   --background: #14213d;
@@ -111,24 +118,31 @@
   --primary: #fca311;
   --primary-foreground: #14213d;
   --primary-text: #ffffff;
+  --primary-hover: #ffb733;
 
-  --secondary: #1e335a;
+  --secondary: transparent;
   --secondary-foreground: #ffffff;
+  --secondary-hover-bg: rgba(255, 255, 255, 0.10);
 
   --muted: #1e335a;
-  --muted-foreground: #e5e5e5;
+  --muted-foreground: rgba(255, 255, 255, 0.75);
 
   --accent: #fca311;
   --accent-foreground: #14213d;
 
-  --destructive: #ef4444;
+  --destructive: #000000;
   --destructive-foreground: #ffffff;
 
-  --border: #ffffff;
-  --input: #000000;
+  --border: rgba(255, 255, 255, 0.15);
+  --input-bg: #000000;
+  --input-fg: #ffffff;
+  --input-border: rgba(255, 255, 255, 0.15);
+  
+  --table-header-bg: #000000;
+  --table-header-fg: #ffffff;
+
   --ring: #fca311;
 }
-
 
 @layer base {
   * {
@@ -146,22 +160,77 @@
     letter-spacing: -0.02em;
   }
 
-  /* Base typography only — no utility overrides here */
+  /* Active navigation items and focus rings */
+  nav a.text-primary, nav button.text-primary {
+    color: #fca311 !important;
+  }
+
+  /* Universal Focus Indicator */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #fca311 !important;
+    outline-offset: 2px !important;
+  }
+
+  /* Disabled State */
+  button:disabled,
+  input:disabled,
+  textarea:disabled,
+  select:disabled {
+    opacity: 0.40 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+  }
+
+  /* Inputs styling */
+  input, textarea, select {
+    background-color: var(--input-bg) !important;
+    color: var(--input-fg) !important;
+    border: 1px solid var(--input-border) !important;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: 2px solid #fca311 !important;
+    outline-offset: 2px !important;
+    border-color: #fca311 !important;
+  }
+
+  /* Tables */
+  table th {
+    background-color: var(--table-header-bg) !important;
+    color: var(--table-header-fg) !important;
+  }
+  table tr:nth-child(even) {
+    background-color: rgba(20, 33, 61, 0.04) !important;
+  }
+  .dark table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.04) !important;
+  }
+
+  /* Badges */
+  .badge, [class*="badge"] {
+    background-color: #fca311 !important;
+    color: #14213d !important;
+  }
+
+  /* Progress bars */
+  progress, [role="progressbar"] {
+    color: #fca311 !important;
+  }
+  
+  /* Skeleton Loaders */
+  .animate-pulse {
+    background-color: currentColor !important;
+    opacity: 0.15 !important;
+  }
 }
 
-/* ===========================================================
-   LIGHT MODE TEXT-PRIMARY FIX
-   Tailwind generates .text-primary in @layer utilities.
-   We must override it at the SAME layer with higher specificity
-   so the golden #fca311 is replaced with legible #b45309 on
-   white/off-white backgrounds in light mode.
-   =========================================================== */
 @layer utilities {
-  /* Light mode: dark amber, ~7.2:1 contrast on white ✓ WCAG AA */
   :root .text-primary {
-    color: #b45309;
+    color: #14213d;
   }
-  /* Dark mode: bright golden is fine on dark backgrounds */
   .dark .text-primary {
     color: #fca311;
   }
