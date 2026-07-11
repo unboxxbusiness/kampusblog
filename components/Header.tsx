@@ -138,12 +138,12 @@ export default function Header({ activeCategories = [] }: HeaderProps) {
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center group">
               <img
-                src="https://res.cloudinary.com/dhrigocvd/image/upload/v1769401433/logo_Kampus_Filter_gync6j.webp"
+                src="/logo-light.webp"
                 alt="Kampus Filter"
                 className="h-9 md:h-10 w-auto object-contain dark:hidden transition-transform duration-300 group-hover:scale-[1.02]"
               />
               <img
-                src="https://res.cloudinary.com/dhrigocvd/image/upload/v1769402686/Logo_voqhtq.png"
+                src="/logo-dark.png"
                 alt="Kampus Filter"
                 className="h-9 md:h-10 w-auto object-contain hidden dark:block transition-transform duration-300 group-hover:scale-[1.02]"
               />
