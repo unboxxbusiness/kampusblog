@@ -165,6 +165,9 @@ export default function Footer({ activeCategories = [] }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link href="/unsubscribe" className="hover:text-primary transition-colors text-destructive/80 font-medium">Unsubscribe & Erasure</Link>
+              </li>
+              <li>
                 <button
                   onClick={() => window.dispatchEvent(new Event("trigger-pwa-hub"))}
                   className="hover:text-primary transition-colors text-left focus:outline-none cursor-pointer"
