@@ -107,7 +107,7 @@ export default function UnsubscribePage() {
           <div className="space-y-1">
             <h4 className="font-semibold text-foreground">What happens when I click delete?</h4>
             <p className="leading-relaxed">
-              We perform a direct, hard-delete operation on our Firestore databases. Any signed-up newsletter profiles and contact form leads linked to this email address are deleted permanently.
+              We perform a direct, hard-delete operation on our cloud databases. Any signed-up newsletter profiles and contact form leads linked to this email address are deleted permanently.
             </p>
           </div>
         </div>
