@@ -108,7 +108,9 @@ export async function GET() {
               }
               return networkResponse;
             })
-            .catch(() => {});
+            .catch(() => {
+              return new Response("Network error", { status: 408 });
+            });
 
           return fetchPromise;
         })

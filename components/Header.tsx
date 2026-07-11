@@ -258,31 +258,31 @@ export default function Header({ activeCategories = [] }: HeaderProps) {
 
         {/* Floating Slide-down Search Bar */}
         {isSearchOpen && (
-          <div className="absolute top-16 left-0 w-full bg-background border-b border-border shadow-md z-30 animate-fade-in-up">
-            <form onSubmit={handleSearchSubmit} className="max-w-3xl mx-auto px-4 py-4 flex items-center gap-2">
+          <div className="absolute top-16 left-0 right-0 w-full bg-background border-b border-border shadow-md z-30 animate-fade-in-up overflow-hidden">
+            <form onSubmit={handleSearchSubmit} className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-2">
               <input
                 type="text"
-                placeholder="Search by title, keywords, category, or content..."
+                placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 px-4 py-2 rounded-lg bg-secondary border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                className="flex-1 min-w-0 px-3 py-2 rounded-lg bg-secondary border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary text-sm"
                 autoFocus
                 suppressHydrationWarning
               />
               <button
                 type="submit"
-                className="bg-primary text-primary-foreground text-sm font-semibold px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+                className="shrink-0 bg-primary text-primary-foreground text-sm font-semibold px-3 py-2 rounded-lg hover:bg-primary/90 transition-colors"
                 suppressHydrationWarning
               >
-                Search
+                <Search className="h-4 w-4" />
               </button>
               <button
                 type="button"
                 onClick={() => setIsSearchOpen(false)}
-                className="p-2 rounded-lg text-muted-foreground hover:bg-secondary transition-colors"
+                className="shrink-0 p-2 rounded-lg text-muted-foreground hover:bg-secondary transition-colors"
                 suppressHydrationWarning
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </button>
             </form>
           </div>

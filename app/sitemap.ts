@@ -3,16 +3,28 @@ import { db, articles } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { siteConfig } from "@/config/site";
 
+// Helper to prevent database queries from hanging the production build process
+function withTimeout<T>(promise: Promise<T>, timeoutMs = 5000, fallback: T): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs))
+  ]);
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url;
 
   // 1. Fetch all published articles from Turso
   let articleUrls: { url: string; lastModified: Date; changeFrequency: "daily" | "weekly" | "monthly"; priority: number }[] = [];
   try {
-    const dbArticles = await db
-      .select({ slug: articles.slug, updatedAt: articles.updatedAt })
-      .from(articles)
-      .where(eq(articles.status, "published"));
+    const dbArticles = await withTimeout(
+      db
+        .select({ slug: articles.slug, updatedAt: articles.updatedAt })
+        .from(articles)
+        .where(eq(articles.status, "published")),
+      5000,
+      []
+    );
 
     articleUrls = dbArticles.map((art) => ({
       url: `${baseUrl}/articles/${art.slug}`,
@@ -27,10 +39,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 2. Fetch active categories and generate category URLs dynamically
   let activeCategoryPaths: string[] = [];
   try {
-    const list = await db
-      .select({ category: articles.category })
-      .from(articles)
-      .where(eq(articles.status, "published"));
+    const list = await withTimeout(
+      db
+        .select({ category: articles.category })
+        .from(articles)
+        .where(eq(articles.status, "published")),
+      5000,
+      []
+    );
 
     const categoriesSet = new Set<string>();
     list.forEach((item) => {
