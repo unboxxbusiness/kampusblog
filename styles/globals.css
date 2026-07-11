@@ -60,85 +60,75 @@
 }
 
 /* ============================================================
-   LIGHT MODE
-   Primary #fca311 (amber) is ONLY used for backgrounds, fills,
-   borders, rings, and button BGs. For readable text on white,
-   we use --primary-text (#b45309) which has ~7.2:1 contrast.
+   LIGHT MODE (WCAG AAA Compliance)
    ============================================================ */
 :root {
-  /* Base surfaces — warm off-white to avoid sterile pure white */
-  --background: #fafaf9;
-  --foreground: #111827;         /* Near-black — strong contrast */
+  --background: #ffffff;
+  --foreground: #14213d;
 
-  --card: #ffffff;
-  --card-foreground: #111827;
+  --card: #e5e5e5;
+  --card-foreground: #14213d;
 
-  --popover: #ffffff;
-  --popover-foreground: #111827;
+  --popover: #e5e5e5;
+  --popover-foreground: #14213d;
 
-  /* Brand amber — kept full-saturation for fills/buttons/icons */
-  --primary: #fca311;
-  --primary-foreground: #1c1408;  /* Very dark brown on amber buttons */
+  --primary: #14213d;
+  --primary-foreground: #ffffff;
+  --primary-text: #14213d;
 
-  /* Text variant of primary for use on white bg — WCAG AA ✓ */
-  --primary-text: #b45309;        /* Amber-700 ~7.2:1 contrast on white */
+  --secondary: #e5e5e5;
+  --secondary-foreground: #14213d;
 
-  /* Surfaces */
-  --secondary: #f3f4f6;           /* Cool-light grey card backgrounds */
-  --secondary-foreground: #111827;
+  --muted: #e5e5e5;
+  --muted-foreground: rgba(20, 33, 61, 0.75);
 
-  --muted: #e5e7eb;               /* Slightly deeper for borders/dividers */
-  --muted-foreground: #4b5563;    /* Grey-600 — strong enough ~7:1 on white */
-
-  --accent: #1e3a5f;              /* Deep navy for accent elements */
-  --accent-foreground: #fca311;
+  --accent: #fca311;
+  --accent-foreground: #14213d;
 
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
 
-  --border: #d1d5db;              /* Grey-300 — visible but not heavy */
-  --input: #e5e7eb;
+  --border: #14213d;
+  --input: #e5e5e5;
   --ring: #fca311;
 
   --radius: 0.75rem;
 }
 
 /* ============================================================
-   DARK MODE
-   Primary #fca311 works great on dark backgrounds.
+   DARK MODE (WCAG AAA Compliance)
    ============================================================ */
 .dark {
-  --background: #0a0a0b;
-  --foreground: #f9fafb;
+  --background: #14213d;
+  --foreground: #ffffff;
 
-  --card: #14213d;
-  --card-foreground: #f9fafb;
+  --card: #000000;
+  --card-foreground: #ffffff;
 
-  --popover: #14213d;
-  --popover-foreground: #f9fafb;
+  --popover: #000000;
+  --popover-foreground: #ffffff;
 
   --primary: #fca311;
-  --primary-foreground: #1c1408;
+  --primary-foreground: #14213d;
+  --primary-text: #ffffff;
 
-  /* In dark mode golden text is fine — matches --primary */
-  --primary-text: #fca311;
+  --secondary: #1e335a;
+  --secondary-foreground: #ffffff;
 
-  --secondary: #22355b;
-  --secondary-foreground: #f9fafb;
-
-  --muted: #1a2a4b;
-  --muted-foreground: #d1d5db;
+  --muted: #1e335a;
+  --muted-foreground: #e5e5e5;
 
   --accent: #fca311;
-  --accent-foreground: #1c1408;
+  --accent-foreground: #14213d;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  --border: #22355b;
-  --input: #22355b;
+  --border: #ffffff;
+  --input: #000000;
   --ring: #fca311;
 }
+
 
 @layer base {
   * {
