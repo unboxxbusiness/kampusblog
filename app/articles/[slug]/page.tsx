@@ -190,6 +190,32 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     })),
   } : null;
 
+  // ── HowTo Schema Extraction ──
+  // Extracts checklist steps (1. Step 1 (Action): ...) and builds Google Rich Snippets HowTo Schema
+  const stepPattern = /<p>\s*(\d+\.\s*(?:Step\s*\d+\s*\(Action\):\s*)?([\s\S]*?))<\/p>/gi;
+  const howToSteps = [];
+  let stepMatch;
+  while ((stepMatch = stepPattern.exec(article.content)) !== null) {
+    const rawStepText = stepMatch[1].replace(/<[^>]*>/g, "").trim();
+    const cleanStepText = rawStepText.replace(/^\d+\.\s*(Step\s*\d+\s*\(Action\):\s*)?/i, "");
+    if (cleanStepText.length > 5) {
+      howToSteps.push({
+        "@type": "HowToStep",
+        "name": `Step ${howToSteps.length + 1}`,
+        "text": cleanStepText,
+        "url": `${articleUrl}#what-should-you-do-next`
+      });
+    }
+  }
+
+  const howToSchema = howToSteps.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": `How to implement: ${article.title}`,
+    "description": article.metaDescription || article.excerpt,
+    "step": howToSteps
+  } : null;
+
   return (
     <>
       {/* 1. Schema Injection */}
@@ -205,6 +231,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      {howToSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
         />
       )}
 
@@ -278,7 +310,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </div>
 
           {/* Cleaned Article Text */}
-          <ArticleBody htmlContent={cleanContent} />
+          <ArticleBody htmlContent={cleanContent} category={article.category} />
 
           {/* Tags list (Interactive Navigation) */}
           {article.tags ? (

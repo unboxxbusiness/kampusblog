@@ -3,6 +3,10 @@ import { db, articles } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { siteConfig } from "@/config/site";
 
+// Force sitemap regeneration on every request (prevents Next.js from caching it statically at build time)
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 // Helper to prevent database queries from hanging the production build process
 function withTimeout<T>(promise: Promise<T>, timeoutMs = 5000, fallback: T): Promise<T> {
   return Promise.race([

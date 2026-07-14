@@ -136,14 +136,19 @@ Your "content" string MUST strictly utilize standard HTML5 tags and follow this 
 
 1. **GEO Takeaways Section**: Add a '<div class="geo-takeaways"><ul><li>Bullet 1</li>...</ul></div>' at the very beginning of the body.
 2. **Authority Citations**: Add a '<div class="geo-citations"><a href="...">Source Name</a>...</div>' referencing the source URLs.
-3. **Heading Hierarchy**: Use exactly these six H2 headings in sequence, written strictly as native HTML tags (do NOT use markdown '#' or '##' hashes):
+3. **Heading Hierarchy**: Use exactly these eight H2 headings in sequence, written strictly as native HTML tags (do NOT use markdown '#' or '##' hashes):
    - '<h2>Introduction: [Briefing Subtitle]</h2>'
    - '<h2>What Happened? [Context / News / Announcement]</h2>'
    - '<h2>Why It Matters</h2>'
    - '<h2>Who Should Care?</h2>' (Followed by exactly three h3 sub-sections: '<h3>1. Students and Graduates</h3>', '<h3>2. Job Seekers & Aspirants</h3>', '<h3>3. Institutions</h3>')
-   - '<h2>Eligibility, Dates & Resource Links</h2>' (If applicable, include a dates table and resource links)
+   - '<h2>How Does It Work? [Technical Details / Workflow]</h2>'
+     * Include a Mermaid.js diagram inside '<div class="geo-mermaid"> ... </div>' to visualize processes/flows.
+     * All flowchart diagrams must start with `flowchart TD` (vertical layout) to fit screens better and prevent horizontal cutoff.
+     * Keep focused: 4-7 nodes max using node shapes `([...])`, `[...]`, `{...}`, `[(...)]`.
+   - '<h2>Eligibility, Dates & Resource Links</h2>' (Include a styled HTML dates/milestones table)
    - '<h2>What Should You Do Next?</h2>' (Actionable 3-step student checklist starting with "1. Step 1 (Action): ...")
-4. **Structured Q&A FAQ Block**: End the content body with exactly 4 detailed Q&As inside '<div class="geo-faq"><div class="faq-item"><h4 class="faq-question">Question?</h4><p class="faq-answer">Detailed Answer.</p></div>...</div>'.
+   - '<h2>Final Thoughts: [Briefing Conclusion]</h2>' (Must contain a brief closing and naturally weave in a link to https://kampusfilter.com)
+4. **Structured Q&A FAQ Block**: End the content body with exactly 6 detailed Q&As inside '<div class="geo-faq"><div class="faq-item"><h4 class="faq-question">Question?</h4><p class="faq-answer">Detailed Answer.</p></div>...</div>'.
    * IMPORTANT: The FAQ block must terminate with exactly two closing divs ('</div>\\n</div>') to prevent React hydration errors. Do NOT add a third closing div.
 `;
 
@@ -156,13 +161,13 @@ Your "content" string MUST strictly utilize standard HTML5 tags and follow this 
         'Authorization': `Bearer \${apiKey}`
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages: [
           { role: 'system', content: 'You are a professional educational editor. You write high-quality student briefings and output strictly formatted JSON objects.' },
           { role: 'user', content: prompt }
         ],
         response_format: { type: 'json_object' },
-        temperature: 0.7
+        temperature: 0.5
       })
     });
 

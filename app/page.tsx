@@ -207,12 +207,18 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                   See All
                 </Link>
               </div>
-              <div className="flex flex-col gap-4">
+              <div className={
+                gridData.length === 1
+                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                  : gridData.length === 2
+                    ? "grid grid-cols-1 sm:grid-cols-2 gap-6"
+                    : "flex flex-col gap-4"
+              }>
                 {catArticles.map((article) => (
                   <ArticleCard key={article.slug} article={article} />
                 ))}
                 {catArticles.length === 0 && (
-                  <p className="text-xs text-muted-foreground text-center py-6">No articles available.</p>
+                  <p className="text-xs text-muted-foreground text-center py-6 col-span-full">No articles available.</p>
                 )}
               </div>
             </div>

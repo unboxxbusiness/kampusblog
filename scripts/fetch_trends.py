@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 import re
 import time
+import random
 
 # Niche keywords for filtering and scoring (Student Admissions, Exam Prep, Scholarships & Opportunities)
 NICHE_KEYWORDS = [
@@ -54,8 +55,9 @@ REDDIT_SUBS = ["Indian_Academia", "JEENEETards", "Btechtards", "IndiaCareers", "
 
 def make_request(url, custom_headers=None):
     """Makes a web request using standard library urllib with customizable headers."""
+    app_id = "windows:kampusfilter:v1.0.0"
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'User-Agent': app_id,
         'Accept': 'application/xml,application/xhtml+xml,text/html;q=0.9,*/*;q=0.8'
     }
     if custom_headers:
@@ -63,11 +65,11 @@ def make_request(url, custom_headers=None):
         
     try:
         req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=10) as response:
+        with urllib.request.urlopen(req, timeout=3) as response:
             return response.read()
     except Exception as e:
         # Silently absorb Reddit/external expected rate limit or block logs to keep output clean
-        if "429" not in str(e) and "403" not in str(e) and "404" not in str(e):
+        if "429" not in str(e) and "403" not in str(e) and "404" not in str(e) and "400" not in str(e):
             print(f"[!] Request failed for {url}: {e}")
         return None
 
@@ -150,13 +152,13 @@ def get_reddit_trending():
     now = datetime.now(timezone.utc)
     
     headers = {
-        'User-Agent': 'windows:kampusfilter:v1.0.0 (by /u/kampusfilter)'
+        'User-Agent': 'windows:kampusfilter:v1.0.0'
     }
     
     for sub in REDDIT_SUBS:
         url = f"https://www.reddit.com/r/{sub}/.rss"
         xml_data = make_request(url, custom_headers=headers)
-        time.sleep(0.5)
+        time.sleep(random.uniform(2.0, 4.5)) # Introduce random sleep jitter to prevent rate-limiting
         if not xml_data:
             continue
         try:
