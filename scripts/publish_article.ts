@@ -133,6 +133,43 @@ async function publish() {
   const client = createClient({ url: dbUrl, authToken: dbToken });
   const db = drizzle(client);
 
+  // 3.5 Check for duplicates and high title similarity
+  console.log("[*] Performing duplication checks against database records...");
+  try {
+    const existingResult = await client.execute("SELECT title, slug FROM articles");
+    const existingArticles = existingResult.rows.map((row: any) => ({
+      title: (row.title || "") as string,
+      slug: (row.slug || "") as string
+    }));
+
+    const clean = (s: string) => s.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/).filter(Boolean);
+    const calculateSimilarity = (str1: string, str2: string) => {
+      const w1 = new Set(clean(str1));
+      const w2 = new Set(clean(str2));
+      if (w1.size === 0 || w2.size === 0) return 0;
+      const intersection = new Set([...w1].filter(x => w2.has(x)));
+      const union = new Set([...w1, ...w2]);
+      return intersection.size / union.size;
+    };
+
+    const draftSlug = slugify(draft.title);
+    for (const article of existingArticles) {
+      const score = calculateSimilarity(article.title, draft.title);
+      if (article.slug === draftSlug || score > 0.8) {
+        console.error(`\n[!] Error: Duplicate article detected in database!`);
+        console.error(`    Draft Title     : "${draft.title}"`);
+        console.error(`    Existing Title  : "${article.title}"`);
+        console.error(`    Existing Slug   : "${article.slug}"`);
+        console.error(`    Similarity Score: ${Math.round(score * 100)}% (Threshold: 80%)`);
+        console.error(`    Publish flow aborted to prevent duplicate content.\n`);
+        client.close();
+        process.exit(1);
+      }
+    }
+  } catch (err: any) {
+    console.warn("[!] Duplication check query encountered an error:", err.message);
+  }
+
   const slug = slugify(draft.title);
   const id = Math.random().toString(36).substring(2, 15);
   const readingTime = calculateReadingTime(draft.content);

@@ -21,6 +21,49 @@ function loadEnv() {
 
 loadEnv();
 
+const { createClient } = require('@libsql/client');
+
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+}
+
+function calculateSimilarity(str1, str2) {
+  const clean = (s) => s.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(Boolean);
+  const w1 = new Set(clean(str1));
+  const w2 = new Set(clean(str2));
+  if (w1.size === 0 || w2.size === 0) return 0;
+  const intersection = new Set([...w1].filter(x => w2.has(x)));
+  const union = new Set([...w1, ...w2]);
+  return intersection.size / union.size;
+}
+
+async function getRecentArticles() {
+  const dbUrl = process.env.TURSO_CONNECTION_URL;
+  const dbToken = process.env.TURSO_AUTH_TOKEN;
+  if (!dbUrl) {
+    console.warn('[!] TURSO_CONNECTION_URL is missing. Skipping database recent article fetch.');
+    return [];
+  }
+  try {
+    const client = createClient({ url: dbUrl, authToken: dbToken });
+    const result = await client.execute('SELECT title, slug FROM articles ORDER BY published_at DESC LIMIT 30');
+    client.close();
+    return result.rows.map(row => ({ title: row.title, slug: row.slug }));
+  } catch (err) {
+    console.warn('[!] Failed to retrieve recent articles from database:', err.message);
+    return [];
+  }
+}
+
+
 async function main() {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
@@ -40,6 +83,10 @@ async function main() {
   const trendsRaw = fs.readFileSync(trendsPath, 'utf8');
   const trendsData = JSON.parse(trendsRaw);
 
+  console.log('[*] Fetching recent articles from database for deduplication...');
+  const recentArticles = await getRecentArticles();
+  const recentArticlesList = recentArticles.map(a => `- ${a.title}`).join('\n') || 'None';
+
   // Grab some trending topics to summarize in the prompt
   const topNews = trendsData.top_stories?.slice(0, 3).map(s => `- ${s.title} (${s.source})`).join('\n') || 'None';
   const topYT = trendsData.youtube_trending?.slice(0, 3).map(y => `- ${y.title} (${y.channel})`).join('\n') || 'None';
@@ -51,6 +98,9 @@ async function main() {
   const prompt = `You are the Lead Editor for Kampus Filter (a daily student intelligence platform helping students make smarter education and career decisions).
 Your task is to review today's student education trends research and draft a highly optimized, daily briefing for our readers.
 
+### Recently Covered Articles (DO NOT write about these topics or use similar titles):
+${recentArticlesList}
+
 ### Daily Niche Scraper Data:
 Top Stories & Government Notifications:
 \${topNews}
@@ -59,6 +109,7 @@ Top Trending Student Videos:
 \${topYT}
 
 Choose the single most viral and relevant student admissions, scholarship, exam, or opportunity theme from the topics above.
+Do not choose a topic that matches or is highly similar to any of the recently covered articles listed above.
 
 You must output a strictly structured JSON object in the exact format defined below.
 
@@ -122,6 +173,30 @@ Your "content" string MUST strictly utilize standard HTML5 tags and follow this 
 
     const responseData = await response.json();
     const articleJson = responseData.choices[0].message.content;
+
+    // Local validation check for exact slug matches or high similarity
+    let draftObj;
+    try {
+      draftObj = JSON.parse(articleJson);
+    } catch (e) {
+      console.warn('[!] Failed to parse generated draft JSON locally. Skipping validation.');
+    }
+
+    if (draftObj && recentArticles.length > 0) {
+      const generatedSlug = slugify(draftObj.title);
+      for (const article of recentArticles) {
+        const existingSlug = slugify(article.title);
+        const score = calculateSimilarity(article.title, draftObj.title);
+        if (existingSlug === generatedSlug || score > 0.8) {
+          console.error(`\n[!] Error: Generated draft is a duplicate of an existing article!`);
+          console.error(`    Proposed Title : "${draftObj.title}"`);
+          console.error(`    Existing Title : "${article.title}"`);
+          console.error(`    Similarity Score: ${Math.round(score * 100)}% (Threshold: 80%)`);
+          console.error(`    Process aborted to prevent duplicate content creation.\n`);
+          process.exit(1);
+        }
+      }
+    }
 
     const outputPath = path.join(__dirname, '..', 'draft_article.json');
     fs.writeFileSync(outputPath, articleJson, 'utf8');

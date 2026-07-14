@@ -96,3 +96,4 @@ To ensure all articles rank highly on standard Google Search, Google AI Overview
 ## Mandatory Code Generation & Migration Rules
 1. **New Article Generation**: Every new article drafted by the agent MUST strictly query this rulebook first and copy this structure, metadata parameters, and formatting without deviation.
 2. **Database Verification**: All entries in the database must be routinely verified against these structural keys. Any column content found to violate these parameters must be immediately updated.
+3. **Deduplication Check**: Before drafting a new article in chat, the agent MUST inspect the live portal website (by fetching `https://kampusfilter.com` or its RSS feed at `https://kampusfilter.com/feed.xml` using `read_url_content`) to compile the list of recently published article titles and slugs. The agent MUST NOT draft or write any article whose topic, title, or slug is a duplicate or highly similar (>80% similarity) to already published articles.
