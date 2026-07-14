@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import PWAListener from "@/features/pwa/PWAListener";
 import FCMHandler from "@/features/notifications/FCMHandler";
 import PWAHubModal from "@/features/pwa/PWAHubModal";
+import PWAThemeSync from "@/features/pwa/PWAThemeSync";
 import "@/styles/globals.css";
 import { siteConfig } from "@/config/site";
 import { getActiveCategoriesAndTags } from "@/services/articles";
@@ -82,6 +83,9 @@ export default async function RootLayout({
             `
           }}
         />
+        {/* iOS native splash screen logos for light/dark mode */}
+        <link rel="apple-touch-startup-image" href="/logo-light.webp" media="(prefers-color-scheme: light)" />
+        <link rel="apple-touch-startup-image" href="/logo-dark.png" media="(prefers-color-scheme: dark)" />
       </head>
       <body className="flex flex-col min-h-screen bg-background text-foreground antialiased selection:bg-primary/20">
         <Header activeCategories={activeCategories} />
@@ -92,6 +96,7 @@ export default async function RootLayout({
         <PWAListener />
         <FCMHandler />
         <PWAHubModal />
+        <PWAThemeSync />
       </body>
     </html>
   );

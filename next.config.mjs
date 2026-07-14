@@ -16,6 +16,10 @@ const nextConfig = {
         source: "/firebase-messaging-sw.js",
         destination: "/api/firebase-messaging-sw",
       },
+      {
+        source: "/manifest.webmanifest",
+        destination: "/api/manifest",
+      },
     ];
   },
   async headers() {
