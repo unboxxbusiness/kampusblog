@@ -133,8 +133,9 @@ async function publish() {
   const client = createClient({ url: dbUrl, authToken: dbToken });
   const db = drizzle(client);
 
-  // 3.5 Check for duplicates and high title similarity
-  console.log("[*] Performing duplication checks against database records...");
+  // 3.5 Check for existing article by slug or similarity to update/replace
+  let existingMatchSlug: string | null = null;
+  console.log("[*] Checking for existing article records in database...");
   try {
     const existingResult = await client.execute("SELECT title, slug FROM articles");
     const existingArticles = existingResult.rows.map((row: any) => ({
@@ -156,21 +157,16 @@ async function publish() {
     for (const article of existingArticles) {
       const score = calculateSimilarity(article.title, draft.title);
       if (article.slug === draftSlug || score > 0.8) {
-        console.error(`\n[!] Error: Duplicate article detected in database!`);
-        console.error(`    Draft Title     : "${draft.title}"`);
-        console.error(`    Existing Title  : "${article.title}"`);
-        console.error(`    Existing Slug   : "${article.slug}"`);
-        console.error(`    Similarity Score: ${Math.round(score * 100)}% (Threshold: 80%)`);
-        console.error(`    Publish flow aborted to prevent duplicate content.\n`);
-        client.close();
-        process.exit(1);
+        existingMatchSlug = article.slug;
+        console.log(`[*] Match found in database: "${article.title}" (slug: ${article.slug}). Replacing live article...`);
+        break;
       }
     }
   } catch (err: any) {
     console.warn("[!] Duplication check query encountered an error:", err.message);
   }
 
-  const slug = slugify(draft.title);
+  const slug = existingMatchSlug || slugify(draft.title);
   const id = Math.random().toString(36).substring(2, 15);
   const readingTime = calculateReadingTime(draft.content);
   const now = Date.now();
@@ -213,9 +209,32 @@ async function publish() {
 
   try {
     const { articles } = await import("../db/schema");
-    console.log(`[*] Inserting article "${draft.title}" into Turso...`);
-    await db.insert(articles).values(newArticle);
-    console.log(`[+] Article successfully inserted. Slug: ${slug}`);
+    const { eq } = await import("drizzle-orm");
+
+    if (existingMatchSlug) {
+      console.log(`[*] Updating existing live article "${slug}" in Turso...`);
+      await db.update(articles).set({
+        title: newArticle.title,
+        excerpt: newArticle.excerpt,
+        content: newArticle.content,
+        category: newArticle.category,
+        image: newArticle.image,
+        author: newArticle.author,
+        updatedAt: now,
+        metaTitle: newArticle.metaTitle,
+        metaDescription: newArticle.metaDescription,
+        keywords: newArticle.keywords,
+        readingTime: newArticle.readingTime,
+        ogImage: newArticle.ogImage,
+        twitterImage: newArticle.twitterImage,
+        publishedBy: newArticle.publishedBy
+      }).where(eq(articles.slug, existingMatchSlug));
+      console.log(`[+] Article updated successfully on live database. Slug: ${slug}`);
+    } else {
+      console.log(`[*] Inserting new article "${draft.title}" into Turso...`);
+      await db.insert(articles).values(newArticle);
+      console.log(`[+] Article successfully inserted into live database. Slug: ${slug}`);
+    }
 
     // 4. Clean up draft file
     fs.unlinkSync(draftPath);

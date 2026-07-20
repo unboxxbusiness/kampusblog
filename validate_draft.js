@@ -75,9 +75,33 @@ function validate() {
   }
   console.log(`[+] Found ${linkMatches.length} citation links.`);
 
-  // 4. Heading sequence validation
+  // 4. Mermaid.js diagram validation
+  const mermaidMatch = content.match(/<div[^>]*class=["']geo-mermaid["'][^>]*>([\s\S]*?)<\/div>/);
+  if (!mermaidMatch) {
+    console.error("Error: Could not find <div class=\"geo-mermaid\">...</div> in content");
+    process.exit(1);
+  }
+  if (!mermaidMatch[1].includes("flowchart") && !mermaidMatch[1].includes("graph")) {
+    console.error("Error: geo-mermaid block must contain a valid Mermaid flowchart/graph diagram");
+    process.exit(1);
+  }
+  console.log("[+] Found valid Mermaid diagram (<div class=\"geo-mermaid\">).");
+
+  // 5. Data Table validation
+  const tableMatch = content.match(/<table[^>]*class=["']geo-dates-table["'][^>]*>([\s\S]*?)<\/table>/);
+  if (!tableMatch) {
+    console.error("Error: Could not find <table class=\"geo-dates-table\">...</table> in content");
+    process.exit(1);
+  }
+  if (!tableMatch[1].includes("<thead") || !tableMatch[1].includes("<tbody")) {
+    console.error("Error: geo-dates-table must contain both <thead> and <tbody> elements");
+    process.exit(1);
+  }
+  console.log("[+] Found valid quick-facts data table (<table class=\"geo-dates-table\">).");
+
+  // 6. Heading sequence validation
   const h2Matches = [...content.matchAll(/<h2>([\s\S]*?)<\/h2>/g)].map(m => m[1]);
-  const expectedH2Count = 6;
+  const expectedH2Count = 7;
   if (h2Matches.length !== expectedH2Count) {
     console.error(`Error: Found ${h2Matches.length} <h2> headings, expected exactly ${expectedH2Count}`);
     console.log("Found headings:", h2Matches);
@@ -89,6 +113,7 @@ function validate() {
     /^What Happened\?/i,
     /^Why It Matters$/i,
     /^Who Should Care\?$/i,
+    /^How Does It Work\?/i,
     /^Eligibility, Dates & Resource Links$/i,
     /^What Should You Do Next\?$/i
   ];
@@ -100,7 +125,7 @@ function validate() {
       process.exit(1);
     }
   }
-  console.log("[+] All 6 <h2> headings match the required sequence.");
+  console.log("[+] All 7 <h2> headings match the required sequence.");
 
   // 5. H3 subsections check
   const h3Matches = [...content.matchAll(/<h3>([\s\S]*?)<\/h3>/g)].map(m => m[1].replace(/<[^>]*>/g, '').trim());

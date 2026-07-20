@@ -37,6 +37,7 @@ Every article published on the site MUST strictly follow the exact same HTML sec
 1. **Introduction**:
    `<h2>Introduction: [Topic Description]</h2>`
    *Lead paragraph detailing the problem/opportunity.*
+   *Followed immediately by Key Takeaways block:* `<div class="geo-takeaways"><h3>Key Takeaways</h3><ul>...</ul></div>`
 2. **What Happened?**:
    `<h2>What Happened? [Context/Background]</h2>`
    *Background details of the release or workflow.*
@@ -47,19 +48,24 @@ Every article published on the site MUST strictly follow the exact same HTML sec
    `<h2>Who Should Care?</h2>`
    *Must contain exactly three standard sub-headings structured as:*
    * `<h3>1. Students and Graduates</h3>` (or `<h3>1. Students and Academics</h3>`)
-   * `<h3>2. Freelancers and Consultants</h3>` (or `<h3>2. Business Analysts</h3>` / `<h3>2. Business Owners</h3>`)
-   * `<h3>3. Businesses</h3>` (or `<h3>3. Content Creators</h3>` / `<h3>3. Professionals</h3>`)
+   * `<h3>2. Job Seekers & Aspirants</h3>` (or `<h3>2. Business Analysts</h3>` / `<h3>2. Business Owners</h3>`)
+   * `<h3>3. Institutions</h3>` (or `<h3>3. Content Creators</h3>` / `<h3>3. Professionals</h3>`)
 5. **How Does It Work?**:
-   `<h2>How Does It Work? [Technical Details]</h2>`
-   *How to implement it, code block examples, or step-by-step mechanisms.*
-6. **What Should You Do Next?**:
-   `<h2>What Should You Do Next? [Actionable Learning Path]</h2>`
+   `<h2>How Does It Work? [Technical Details / Workflow]</h2>`
+   *Explanation of implementation or process flow, MUST include a visual diagram inside:*
+   `<div class="geo-mermaid">flowchart TD ...</div>`
+6. **Eligibility, Dates & Resource Links**:
+   `<h2>Eligibility, Dates & Resource Links</h2>`
+   *Overview paragraph followed MUST include a quick-facts table:*
+   `<table class="geo-dates-table"><thead><tr><th>Parameter</th><th>Official Requirements & Specifications</th></tr></thead><tbody>...</tbody></table>`
+7. **What Should You Do Next?**:
+   `<h2>What Should You Do Next?</h2>`
    *Exactly three numbered steps to take.*
-7. **Citations Container**:
+8. **Citations Container**:
    `<div class="geo-citations">...</div>`
-8. **FAQ Container**:
+9. **FAQ Container**:
    `<div class="geo-faq"><div class="faq-item"><h4 class="faq-question">...</h4><p class="faq-answer">...</p></div>...</div></div>`
-   *Must contain exactly four detailed FAQ Q&A items, matching the depth and wordcount parameters of the first article.*
+   *Must contain exactly four detailed FAQ Q&A items, terminating with `</div>\n</div>` for parser compatibility.*
 
 ---
 

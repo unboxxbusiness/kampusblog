@@ -283,43 +283,9 @@ export default function ArticleBody({ htmlContent, category }: ArticleBodyProps)
 
   // Recursive renderer — handles Mermaid diagrams and checklists
   const renderHTMLBlock = (html: string, baseIndex: number): React.ReactNode => {
-    // 1. Mermaid diagram parser — detects <div class="geo-mermaid">...</div>
-    const hasMermaid =
-      html.includes('class="geo-mermaid"') || html.includes("class='geo-mermaid'");
+    if (!html) return null;
 
-    if (hasMermaid) {
-      const mermaidSubparts = html.split(/<div\s+class=["']geo-mermaid["']\s*>[\s\S]*?<\/div>/gi);
-      const mermaidMatches: string[] = [];
-      let m;
-      const mermaidRxClone = /<div\s+class=["']geo-mermaid["']\s*>([\s\S]*?)<\/div>/gi;
-      while ((m = mermaidRxClone.exec(html)) !== null) {
-        const decoded = m[1]
-          .replace(/&amp;/g, "&")
-          .replace(/&lt;/g, "<")
-          .replace(/&gt;/g, ">")
-          .replace(/&quot;/g, '"')
-          .replace(/&#39;/g, "'");
-        mermaidMatches.push(decoded.trim());
-      }
-
-      return (
-        <React.Fragment key={baseIndex}>
-          {mermaidSubparts.map((subpart, subIdx) => {
-            const chartDef = mermaidMatches[subIdx];
-            return (
-              <React.Fragment key={`${baseIndex}-m-${subIdx}`}>
-                {subpart && renderHTMLBlock(subpart, baseIndex + 100 + subIdx)}
-                {chartDef && (
-                  <MermaidChart chart={chartDef} category={category} />
-                )}
-              </React.Fragment>
-            );
-          })}
-        </React.Fragment>
-      );
-    }
-
-    // 2. Checklist Parser — detects "1. Step 1 (Action): ..." patterns
+    // 1. Checklist Parser — detects "1. Step 1 (Action): ..." patterns
     const stepPattern =
       /<p>\s*(1\.\s*(?:Step\s*1\s*\(Action\):\s*)?[\s\S]*?)<\/p>\s*<p>\s*(2\.\s*(?:Step\s*2\s*\(Action\):\s*)?[\s\S]*?)<\/p>\s*<p>\s*(3\.\s*(?:Step\s*3\s*\(Action\):\s*)?[\s\S]*?)<\/p>/gi;
     const match = stepPattern.exec(html);
@@ -334,6 +300,51 @@ export default function ArticleBody({ htmlContent, category }: ArticleBodyProps)
           {subparts[0] && renderHTMLBlock(subparts[0], baseIndex + 1)}
           {items.length > 0 && <InteractiveChecklist items={items} />}
           {subparts[1] && renderHTMLBlock(subparts[1], baseIndex + 2)}
+        </React.Fragment>
+      );
+    }
+
+    // 2. Mermaid diagram parser — detects <div class="geo-mermaid">...</div>
+    const hasMermaid =
+      html.includes('class="geo-mermaid"') || html.includes("class='geo-mermaid'");
+
+    if (hasMermaid) {
+      const mermaidSubparts = html.split(/<div\s+class=["']geo-mermaid["']\s*>[\s\S]*?<\/div>/gi);
+      const mermaidMatches: string[] = [];
+      let m;
+      const mermaidRxClone = /<div\s+class=["']geo-mermaid["']\s*>([\s\S]*?)<\/div>/gi;
+      while ((m = mermaidRxClone.exec(html)) !== null) {
+        const decoded = m[1]
+          .replace(/<p>/gi, "")
+          .replace(/<\/p>/gi, "\n")
+          .replace(/<br\s*\/?>/gi, "\n")
+          .replace(/<[^>]*>/g, "")
+          .replace(/&amp;/g, "&")
+          .replace(/&lt;/g, "<")
+          .replace(/&gt;/g, ">")
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'");
+        mermaidMatches.push(decoded.trim());
+      }
+
+      return (
+        <React.Fragment key={baseIndex}>
+          {mermaidSubparts.map((subpart, subIdx) => {
+            const chartDef = mermaidMatches[subIdx];
+            return (
+              <React.Fragment key={`${baseIndex}-m-${subIdx}`}>
+                {subpart && (
+                  <div
+                    className="article-text-section"
+                    dangerouslySetInnerHTML={{ __html: subpart }}
+                  />
+                )}
+                {chartDef && (
+                  <MermaidChart chart={chartDef} category={category} />
+                )}
+              </React.Fragment>
+            );
+          })}
         </React.Fragment>
       );
     }

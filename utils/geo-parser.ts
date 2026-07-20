@@ -79,15 +79,15 @@ export function parseGEOContent(rawContent: string): ParsedGEOData {
   }
 
   // 3. Extract FAQ Items
-  const faqMatch = rawContent.match(/<div[^>]*class=["']geo-faq["'][^>]*>([\s\S]*?)<\/div>\s*<\/div>/);
+  const faqMatch = rawContent.match(/<div[^>]*class=["']geo-faq["'][^>]*>([\s\S]*)/i);
   if (faqMatch) {
     const inner = faqMatch[1] || "";
-    const itemRegex = /<div[^>]*class=["']faq-item["'][^>]*>([\s\S]*?)<\/div>/g;
+    const itemRegex = /<div[^>]*class=["']faq-item["'][^>]*>([\s\S]*?)<\/div>/gi;
     let itemMatch;
     while ((itemMatch = itemRegex.exec(inner)) !== null) {
       const itemContent = itemMatch[1] || "";
-      const qMatch = itemContent.match(/<h[234][^>]*class=["']faq-question["'][^>]*>([\s\S]*?)<\/h[234]>/);
-      const aMatch = itemContent.match(/<p[^>]*class=["']faq-answer["'][^>]*>([\s\S]*?)<\/p>/);
+      const qMatch = itemContent.match(/<h[234][^>]*class=["']faq-question["'][^>]*>([\s\S]*?)<\/h[234]>/i);
+      const aMatch = itemContent.match(/<p[^>]*class=["']faq-answer["'][^>]*>([\s\S]*?)<\/p>/i);
       if (qMatch && aMatch && qMatch[1] && aMatch[1]) {
         data.faqs.push({
           question: qMatch[1].replace(/<[^>]*>/g, "").trim(),
@@ -99,9 +99,9 @@ export function parseGEOContent(rawContent: string): ParsedGEOData {
 
   // 4. Clean Content (Strip the custom containers and inject heading IDs)
   const stripped = rawContent
-    .replace(/<div[^>]*class=["']geo-takeaways["'][^>]*>[\s\S]*?<\/div>/g, "")
-    .replace(/<div[^>]*class=["']geo-citations["'][^>]*>[\s\S]*?<\/div>/g, "")
-    .replace(/<div[^>]*class=["']geo-faq["'][^>]*>[\s\S]*?<\/div>\s*<\/div>/g, "")
+    .replace(/<div[^>]*class=["']geo-takeaways["'][^>]*>[\s\S]*?<\/div>/gi, "")
+    .replace(/<div[^>]*class=["']geo-citations["'][^>]*>[\s\S]*?<\/div>/gi, "")
+    .replace(/<div[^>]*class=["']geo-faq["'][^>]*>[\s\S]*/gi, "")
     .trim();
 
   data.cleanContent = injectHeadingIds(stripped);
