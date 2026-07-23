@@ -11,6 +11,8 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "publish-article": "tsx scripts/publish_article.ts",
+    "delete-article": "tsx scripts/delete_article.ts",
+    "batch-publish": "tsx scripts/publish_batch_articles.ts",
     "wipe-db": "node scripts/delete_all_articles.js",
     "reset-firestore": "node scripts/reset_firestore.js"
   },

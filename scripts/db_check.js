@@ -32,17 +32,14 @@ async function check() {
     args: [slug]
   });
 
+  const outPath = path.join(__dirname, '..', 'public', 'db_dump.html');
   if (res.rows.length === 0) {
-    console.log("ARTICLE NOT FOUND IN DB!");
+    fs.writeFileSync(outPath, 'ARTICLE NOT FOUND IN DB!');
   } else {
     const content = res.rows[0].content;
-    console.log("=== DB CONTENT CHECK ===");
-    console.log("Length:", content.length);
-    console.log("Has geo-mermaid?", content.includes("geo-mermaid"));
-    console.log("Has geo-dates-table?", content.includes("geo-dates-table"));
-    console.log("Content Snippet:\n", content);
+    fs.writeFileSync(outPath, content, 'utf8');
   }
   client.close();
 }
 
-check();
+check().catch(console.error);

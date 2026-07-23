@@ -281,82 +281,81 @@ export default function ArticleBody({ htmlContent, category }: ArticleBodyProps)
   // Split by <div class="geo-code">...</div> blocks first to support optional TabbedCodePanels
   const parts = sanitized.split(/(<div\s+class=["']geo-code["']\s*>[\s\S]*?<\/div>)/g);
 
-  // Recursive renderer — handles Mermaid diagrams and checklists
-  const renderHTMLBlock = (html: string, baseIndex: number): React.ReactNode => {
-    if (!html) return null;
-
-    // 1. Checklist Parser — detects "1. Step 1 (Action): ..." patterns
+  // Helper: Renders text sections, extracting action checklists if present
+  const renderTextAndChecklist = (text: string, keyPrefix: string): React.ReactNode => {
     const stepPattern =
-      /<p>\s*(1\.\s*(?:Step\s*1\s*\(Action\):\s*)?[\s\S]*?)<\/p>\s*<p>\s*(2\.\s*(?:Step\s*2\s*\(Action\):\s*)?[\s\S]*?)<\/p>\s*<p>\s*(3\.\s*(?:Step\s*3\s*\(Action\):\s*)?[\s\S]*?)<\/p>/gi;
-    const match = stepPattern.exec(html);
+      /<p>\s*(1\.\s*(?:Step\s*1\s*\(Action\):\s*)?[\s\S]*?)<\/p>\s*<p>\s*(2\.\s*(?:Step\s*2\s*\(Action\):\s*)?[\s\S]*?)<\/p>\s*<p>\s*(3\.\s*(?:Step\s*3\s*\(Action\):\s*)?[\s\S]*?)<\/p>/i;
+    const match = stepPattern.exec(text);
 
     if (match) {
       const items: string[] = [match[1].trim(), match[2].trim(), match[3].trim()];
       const checklistHTML = match[0];
-      const subparts = html.split(checklistHTML);
+      const subparts = text.split(checklistHTML);
 
       return (
-        <React.Fragment key={baseIndex}>
-          {subparts[0] && renderHTMLBlock(subparts[0], baseIndex + 1)}
+        <React.Fragment key={keyPrefix}>
+          {subparts[0] && (
+            <div className="article-text-section" dangerouslySetInnerHTML={{ __html: subparts[0] }} />
+          )}
           {items.length > 0 && <InteractiveChecklist items={items} />}
-          {subparts[1] && renderHTMLBlock(subparts[1], baseIndex + 2)}
+          {subparts[1] && (
+            <div className="article-text-section" dangerouslySetInnerHTML={{ __html: subparts[1] }} />
+          )}
         </React.Fragment>
       );
     }
 
-    // 2. Mermaid diagram parser — detects <div class="geo-mermaid">...</div>
-    const hasMermaid =
-      html.includes('class="geo-mermaid"') || html.includes("class='geo-mermaid'");
-
-    if (hasMermaid) {
-      const mermaidSubparts = html.split(/<div\s+class=["']geo-mermaid["']\s*>[\s\S]*?<\/div>/gi);
-      const mermaidMatches: string[] = [];
-      let m;
-      const mermaidRxClone = /<div\s+class=["']geo-mermaid["']\s*>([\s\S]*?)<\/div>/gi;
-      while ((m = mermaidRxClone.exec(html)) !== null) {
-        const decoded = m[1]
-          .replace(/<p>/gi, "")
-          .replace(/<\/p>/gi, "\n")
-          .replace(/<br\s*\/?>/gi, "\n")
-          .replace(/<[^>]*>/g, "")
-          .replace(/&amp;/g, "&")
-          .replace(/&lt;/g, "<")
-          .replace(/&gt;/g, ">")
-          .replace(/&quot;/g, '"')
-          .replace(/&#39;/g, "'");
-        mermaidMatches.push(decoded.trim());
-      }
-
-      return (
-        <React.Fragment key={baseIndex}>
-          {mermaidSubparts.map((subpart, subIdx) => {
-            const chartDef = mermaidMatches[subIdx];
-            return (
-              <React.Fragment key={`${baseIndex}-m-${subIdx}`}>
-                {subpart && (
-                  <div
-                    className="article-text-section"
-                    dangerouslySetInnerHTML={{ __html: subpart }}
-                  />
-                )}
-                {chartDef && (
-                  <MermaidChart chart={chartDef} category={category} />
-                )}
-              </React.Fragment>
-            );
-          })}
-        </React.Fragment>
-      );
-    }
-
-    // 3. Fallback: render sanitized HTML
     return (
       <div
-        key={baseIndex}
+        key={keyPrefix}
         className="article-text-section"
-        dangerouslySetInnerHTML={{ __html: html }}
+        dangerouslySetInnerHTML={{ __html: text }}
       />
     );
+  };
+
+  // Helper: Parses segment into sequential text blocks, checklists, and Mermaid diagram components
+  const parseBlocks = (segment: string, segmentIndex: number): React.ReactNode[] => {
+    if (!segment.trim()) return [];
+
+    const blocks: React.ReactNode[] = [];
+    const mermaidRegex = /<div\s+class=["']geo-mermaid["']\s*>([\s\S]*?)<\/div>/gi;
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+
+    while ((match = mermaidRegex.exec(segment)) !== null) {
+      const precedingText = segment.slice(lastIndex, match.index);
+      if (precedingText.trim()) {
+        blocks.push(renderTextAndChecklist(precedingText, `blk-${segmentIndex}-${blocks.length}`));
+      }
+
+      const rawChart = match[1]
+        .replace(/<p>/gi, "")
+        .replace(/<\/p>/gi, "\n")
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<[^>]*>/g, "")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .trim();
+
+      if (rawChart) {
+        blocks.push(
+          <MermaidChart key={`mchart-${segmentIndex}-${blocks.length}`} chart={rawChart} category={category} />
+        );
+      }
+
+      lastIndex = mermaidRegex.lastIndex;
+    }
+
+    const trailingText = segment.slice(lastIndex);
+    if (trailingText.trim()) {
+      blocks.push(renderTextAndChecklist(trailingText, `blk-${segmentIndex}-${blocks.length}`));
+    }
+
+    return blocks;
   };
 
   return (
@@ -367,13 +366,12 @@ export default function ArticleBody({ htmlContent, category }: ArticleBodyProps)
           part.endsWith("</div>");
 
         if (isGeoCode) {
-          // Extract the code content inside <pre><code> block if present
           const codeMatch = part.match(/<pre><code>([\s\S]*?)<\/code><\/pre>/i);
           const codeContent = codeMatch ? codeMatch[1] : part.replace(/<[^>]+>/g, "");
           return <TabbedCodePanel key={index} code={codeContent} />;
         }
 
-        return renderHTMLBlock(part, index * 1000);
+        return <React.Fragment key={index}>{parseBlocks(part, index)}</React.Fragment>;
       })}
     </div>
   );

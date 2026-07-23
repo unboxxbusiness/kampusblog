@@ -72,8 +72,8 @@ async function pingSitemaps() {
     console.log(`[*] Pinging Google & Bing with updated sitemap: ${sitemapUrl}...`);
     // Basic fetch ping
     await Promise.all([
-      fetch(`https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`).catch(() => {}),
-      fetch(`https://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`).catch(() => {})
+      fetch(`https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`, { signal: AbortSignal.timeout(3000) }).catch(() => {}),
+      fetch(`https://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`, { signal: AbortSignal.timeout(3000) }).catch(() => {})
     ]);
     console.log(`[+] Sitemap pings dispatched.`);
   } catch (err: any) {
@@ -276,6 +276,7 @@ async function publish() {
               "x-api-key": notifySecret,
             },
             body: JSON.stringify(notificationPayload),
+            signal: AbortSignal.timeout(3000),
           });
           if (response.ok) {
             console.log(`[+] Push notification webhook triggered successfully on ${base}`);
@@ -302,6 +303,7 @@ async function publish() {
               "x-api-key": notifySecret,
             },
             body: JSON.stringify(revalidatePayload),
+            signal: AbortSignal.timeout(3000),
           });
           if (response.ok) {
             console.log(`[+] Cache revalidation triggered successfully on ${base}`);
