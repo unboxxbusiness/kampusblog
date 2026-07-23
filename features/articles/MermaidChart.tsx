@@ -57,7 +57,7 @@ export default function MermaidChart({ chart, category }: MermaidChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [error, setError]     = useState<string | null>(null);
   const [rendered, setRendered] = useState(false);
-  const [zoom, setZoom]       = useState(1.0); // Default to 100% full view
+  const [zoom, setZoom]       = useState(0.4); // Default to 40% view
 
   const idRef = useRef(
     `mchart-${++chartIdCounter}-${Math.random().toString(36).slice(2, 7)}`
@@ -65,7 +65,7 @@ export default function MermaidChart({ chart, category }: MermaidChartProps) {
 
   const zoomIn    = () => setZoom((z) => Math.min(2.5, +(z + 0.15).toFixed(2)));
   const zoomOut   = () => setZoom((z) => Math.max(0.4, +(z - 0.15).toFixed(2)));
-  const zoomReset = () => setZoom(1.0);
+  const zoomReset = () => setZoom(0.4);
 
   useEffect(() => {
     if (!rendered || !containerRef.current) return;
