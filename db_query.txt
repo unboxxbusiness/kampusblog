@@ -1,0 +1,1 @@
+ERR: SQL_INPUT_ERROR: SQLite input error: no such column: publishedAt (at offset 53)

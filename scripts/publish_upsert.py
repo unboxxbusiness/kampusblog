@@ -36,9 +36,17 @@ def calculate_reading_time(html_content):
     return max(1, math.ceil(words / 225))
 
 def main():
+    import sys
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
     log = []
     def log_print(msg):
-        print(msg)
+        try:
+            print(msg)
+        except Exception:
+            print(msg.encode('ascii', 'ignore').decode('ascii'))
         log.append(msg)
 
     draft_path = os.path.join(os.path.dirname(__file__), '..', 'draft_article.json')

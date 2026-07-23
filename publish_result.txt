@@ -1,4 +1,4 @@
-[*] Processing article: 'GenAI & Autonomous Agents: The Ultimate Future Skills Roadmap for Students in 2026'
-[*] Target slug: 'genai-autonomous-agents-the-ultimate-future-skills-roadmap-for-students-in-2026'
-[*] Article slug 'genai-autonomous-agents-the-ultimate-future-skills-roadmap-for-students-in-2026' not found. Executing INSERT query...
-[+] SUCCESS: Live article 'GenAI & Autonomous Agents: The Ultimate Future Skills Roadmap for Students in 2026' successfully published to Turso DB!
+[*] Processing article: 'PM Vidyalaxmi Scheme 2026: Collateral-Free Loans up to ₹10 Lakh with 3% Interest Subvention for Top Indian Colleges'
+[*] Target slug: 'pm-vidyalaxmi-scheme-2026-collateral-free-loans-up-to-10-lakh-with-3-interest-subvention-for-top-indian-colleges'
+[*] Article slug 'pm-vidyalaxmi-scheme-2026-collateral-free-loans-up-to-10-lakh-with-3-interest-subvention-for-top-indian-colleges' not found. Executing INSERT query...
+[+] SUCCESS: Live article 'PM Vidyalaxmi Scheme 2026: Collateral-Free Loans up to ₹10 Lakh with 3% Interest Subvention for Top Indian Colleges' successfully published to Turso DB!
