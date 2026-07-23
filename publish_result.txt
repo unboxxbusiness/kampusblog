@@ -1,4 +1,4 @@
-[*] Processing article: 'UGC Makes Academic Bank of Credits (ABC) ID Mandatory for All University Admissions in 2026: Complete Guide'
-[*] Target slug: 'ugc-makes-academic-bank-of-credits-abc-id-mandatory-for-all-university-admissions-in-2026-complete-guide'
-[*] Article slug 'ugc-makes-academic-bank-of-credits-abc-id-mandatory-for-all-university-admissions-in-2026-complete-guide' not found. Executing INSERT query...
-[+] SUCCESS: Live article 'UGC Makes Academic Bank of Credits (ABC) ID Mandatory for All University Admissions in 2026: Complete Guide' successfully published to Turso DB!
+[*] Processing article: 'GenAI & Autonomous Agents: The Ultimate Future Skills Roadmap for Students in 2026'
+[*] Target slug: 'genai-autonomous-agents-the-ultimate-future-skills-roadmap-for-students-in-2026'
+[*] Article slug 'genai-autonomous-agents-the-ultimate-future-skills-roadmap-for-students-in-2026' not found. Executing INSERT query...
+[+] SUCCESS: Live article 'GenAI & Autonomous Agents: The Ultimate Future Skills Roadmap for Students in 2026' successfully published to Turso DB!
