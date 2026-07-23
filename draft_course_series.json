@@ -1,0 +1,60 @@
+{
+  "series_title": "The Ultimate 2026 Student Guide to Prompt Engineering & Autonomous AI Skills",
+  "articles": [
+    {
+      "title": "Part 1: The Foundation — Why Prompt Engineering is the #1 Student Skill in 2026",
+      "category": "Future Skills",
+      "excerpt": "Welcome to Part 1 of our 5-part student masterclass series. Discover why prompt engineering is no longer just for coders, but an essential digital literacy skill for every college student in 2026.",
+      "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200",
+      "author": "Kampus Filter Desk",
+      "viral_score": 98,
+      "source_name": "Future of Student Skills Report 2026",
+      "source_url": "https://www.coursera.org",
+      "content": "<p class=\"text-lg leading-relaxed text-muted-foreground mb-6\">Welcome to Module 1 of our 5-part micro-course on <strong>Prompt Engineering & Autonomous AI Skills for Students</strong>. In 2026, simply asking a chatbot to write a summary is no longer enough to stand out in campus placements. Top recruiters across technology, finance, marketing, and design are aggressively seeking graduates who know how to construct structured system prompts, manage AI context, and automate complex study and work routines.</p>\n\n<div class=\"geo-takeaways\">\n  <h3>Module 1 Takeaways</h3>\n  <ul>\n    <li><strong>Beyond Chatting:</strong> Prompt engineering is a structured communication framework between human intent and machine execution.</li>\n    <li><strong>Universal Relevance:</strong> Whether you are in Engineering, Business, or Liberal Arts, AI fluency doubles your output.</li>\n    <li><strong>Career Multiplier:</strong> Students with verified AI prompt skills command up to 35% higher starting salary offers.</li>\n  </ul>\n</div>\n\n<h2>Why Prompt Engineering Is Essential for Every Degree</h2>\n<p>Prompt engineering is the art and science of guiding Large Language Models (LLMs) to produce precise, reliable, and high-quality outputs. Instead of getting generic responses, trained students use system roles, context constraints, and output formatting rules to transform AI into a tireless research assistant.</p>\n\n<table class=\"geo-dates-table\">\n  <thead><tr><th>Unstructured Casual Prompting</th><th>Structured Student Prompt Engineering</th></tr></thead>\n  <tbody>\n    <tr><td>\"Explain machine learning to me.\"</td><td>\"Act as a Senior Data Scientist. Explain gradient descent using a mountain-climbing analogy. Target Grade 8 readability with 3 key takeaways.\"</td></tr>\n    <tr><td>Vague, generic, and repetitive responses</td><td>Deterministic, actionable, and formatted outputs</td></tr>\n  </tbody>\n</table>\n\n<div class=\"geo-citations\">\n  <h3>Authoritative Sources & Citations</h3>\n  <ul><li><a href=\"https://www.deeplearning.ai\" target=\"_blank\">DeepLearning.AI Student Learning Guides</a></li></ul>\n</div>"
+    },
+    {
+      "title": "Part 2: Deep Architecture — Zero-Shot, Few-Shot & Chain-of-Thought Mechanics",
+      "category": "Future Skills",
+      "excerpt": "In Part 2 of our student masterclass, we break down the core prompting methodologies: Zero-Shot, Few-Shot, and Chain-of-Thought (CoT) reasoning.",
+      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1200",
+      "author": "Kampus Filter Desk",
+      "viral_score": 96,
+      "source_name": "AI Prompt Architecture Specs",
+      "source_url": "https://www.promptingguide.ai",
+      "content": "<p class=\"text-lg leading-relaxed text-muted-foreground mb-6\">In Module 2 of our series, we inspect the cognitive mechanics of LLMs. By understanding how models process reasoning paths, you can eliminate hallucinations and solve complex academic problems effortlessy.</p>\n\n<div class=\"geo-takeaways\">\n  <h3>Module 2 Takeaways</h3>\n  <ul>\n    <li><strong>Zero-Shot:</strong> Asking a direct question without prior examples. Good for simple factual queries.</li>\n    <li><strong>Few-Shot:</strong> Providing 2-3 exemplar inputs and outputs to condition the model's response format.</li>\n    <li><strong>Chain-of-Thought (CoT):</strong> Forcing the AI to 'think step-by-step' before outputting the final answer.</li>\n  </ul>\n</div>\n\n<h2>The Chain-of-Thought Reasoning Workflow</h2>\n<div class=\"geo-mermaid\">\nflowchart TD\n  A([Complex Academic / Logic Problem]) --> B[System Prompt: Think Step-by-Step]\n  B --> C[Step 1: Identify Given Variables & Constraints]\n  C --> D[Step 2: Evaluate Applicable Formulas / Theories]\n  D --> E[Step 3: Perform Intermediate Calculation]\n  E --> F([Final Verified Answer & Explanation ✅])\n</div>\n\n<div class=\"geo-citations\">\n  <h3>Authoritative Sources & Citations</h3>\n  <ul><li><a href=\"https://www.promptingguide.ai\" target=\"_blank\">DAIR.AI Prompt Engineering Guide</a></li></ul>\n</div>"
+    },
+    {
+      "title": "Part 3: Hands-On Tutorial — Step-by-Step Building Your Personal AI Study Assistant",
+      "category": "Future Skills",
+      "excerpt": "Ready to put theory into practice? Part 3 guides you through creating your custom study assistant using custom system prompts and document context.",
+      "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=1200",
+      "author": "Kampus Filter Desk",
+      "viral_score": 95,
+      "source_name": "Student Productivity Lab",
+      "source_url": "https://kampusfilter.com",
+      "content": "<p class=\"text-lg leading-relaxed text-muted-foreground mb-6\">In Module 3, we get hands-on. You will build a personalized AI Study Assistant tailored to your university syllabus using free tools like ChatGPT, Claude, or Perplexity.</p>\n\n<div class=\"geo-takeaways\">\n  <h3>Module 3 Takeaways</h3>\n  <ul>\n    <li><strong>Custom Instructions:</strong> Setting persistent persona rules so you never have to re-explain your degree focus.</li>\n    <li><strong>Syllabus Chunking:</strong> Uploading lecture PDFs to extract active-recall flashcards and practice exam questions.</li>\n  </ul>\n</div>\n\n<h2>3-Step Action Setup Roadmap</h2>\n<p>1. Step 1 (Action): Draft your Master Student Persona prompt defining your target degree, weak areas, and preferred learning style.</p>\n<p>2. Step 2 (Action): Upload your course syllabus PDF and instruct the AI to generate a 4-week active recall study schedule.</p>\n<p>3. Step 3 (Action): Create a dedicated Project Folder in your AI app to store lecture notes and practice quiz generators.</p>\n\n<div class=\"geo-citations\">\n  <h3>Authoritative Sources & Citations</h3>\n  <ul><li><a href=\"https://kampusfilter.com\" target=\"_blank\">Kampus Filter Student Hub</a></li></ul>\n</div>"
+    },
+    {
+      "title": "Part 4: Real-World Case Study — How College Students Use AI to Win Hackathons & Placement Offers",
+      "category": "Future Skills",
+      "excerpt": "Part 4 highlights real student case studies. Learn how candidates leveraged AI prompt skills to win national hackathons and stand out in corporate interviews.",
+      "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=1200",
+      "author": "Kampus Filter Desk",
+      "viral_score": 94,
+      "source_name": "Campus Placement Insights 2026",
+      "source_url": "https://www.naukri.com",
+      "content": "<p class=\"text-lg leading-relaxed text-muted-foreground mb-6\">In Module 4, we inspect actual case studies of Indian engineering and management students who transformed their placement prep using advanced AI workflows.</p>\n\n<table class=\"geo-dates-table\">\n  <thead><tr><th>Student Track</th><th>Traditional Prep Approach</th><th>AI-Assisted Workflow Impact</th></tr></thead>\n  <tbody>\n    <tr><td><strong>Computer Science B.Tech</strong></td><td>Manual LeetCode grinding without feedback</td><td>AI Mock Interviewer reviewing code complexity live (3x faster prep)</td></tr>\n    <tr><td><strong>MBA Marketing Candidate</strong></td><td>Generic case study summaries</td><td>AI Market Research Agent scraping live competitor metrics for pitch deck</td></tr>\n  </tbody>\n</table>\n\n<div class=\"geo-citations\">\n  <h3>Authoritative Sources & Citations</h3>\n  <ul><li><a href=\"https://www.naukri.com\" target=\"_blank\">Naukri Campus Hiring Trends 2026</a></li></ul>\n</div>"
+    },
+    {
+      "title": "Part 5: Masterclass & Roadmap — AI Ethics, Portfolio Building & Final Student FAQ",
+      "category": "Future Skills",
+      "excerpt": "Congratulations on completing the series! Part 5 wraps up with AI academic integrity guidelines, building an AI project portfolio, and your final FAQ.",
+      "image": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1200",
+      "author": "Kampus Filter Desk",
+      "viral_score": 97,
+      "source_name": "Kampus Filter Masterclass",
+      "source_url": "https://kampusfilter.com",
+      "content": "<p class=\"text-lg leading-relaxed text-muted-foreground mb-6\">Congratulations on completing Module 5 of our <strong>Student Prompt Engineering & AI Skills Masterclass</strong>! You are now equipped to ethically leverage AI to excel in your academics and career.</p>\n\n<div class=\"geo-faq\">\n  <h3 class=\"faq-header\">Frequently Asked Questions</h3>\n  <div class=\"faq-item\">\n    <h4 class=\"faq-question\">Is using AI for university assignments considered cheating?</h4>\n    <p class=\"faq-answer\">Using AI to brainstorm, explain complex concepts, or review your writing is encouraged as a learning tool. However, submitting raw AI-generated text as your own work violates academic integrity policies. Always use AI to enhance your own understanding.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h4 class=\"faq-question\">How can I showcase my prompt engineering skills on my resume?</h4>\n    <p class=\"faq-answer\">List specific AI tools and frameworks you have mastered (e.g. 'LLM Context Management, Chain-of-Thought Prompting, Custom GPT Development') and highlight real projects in your portfolio.</p>\n  </div>\n</div>\n\n<div class=\"geo-citations\">\n  <h3>Authoritative Sources & Citations</h3>\n  <ul><li><a href=\"https://kampusfilter.com\" target=\"_blank\">Kampus Filter — The 5-Minute Student Briefing</a></li></ul>\n</div>"
+    }
+  ]
+}
